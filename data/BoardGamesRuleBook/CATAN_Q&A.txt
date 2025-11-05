@@ -1,0 +1,117 @@
+Board_game: CATAN
+Q: Can you play a development card the same turn you buy it?
+A: No, you must wait until your next turn (except Victory Points).
+
+Q: Can you use Year of Plenty to take two of the same resource?
+A: Yes, you may choose any two, even duplicates.
+
+Q: What does the Monopoly card do?
+A: It lets you take all cards of one resource type from every player.
+
+Q: Can you build multiple roads in one turn?
+A: Yes, as long as you have enough resources.
+
+Q: Can you steal from a player with no resource cards?
+A: Yes, but you get nothing.
+
+Q: Can you win by revealing multiple Victory Point cards mid-turn?
+A: Yes, you can reveal them anytime to reach 10 points and win.
+
+Q: Can you trade after building?
+A: Yes, you can trade and build in any order.
+
+Q: Can you downgrade a city back to a settlement?
+A: No, upgrades are permanent.
+
+Q: Can you use a harbor without building a settlement there?
+A: No, you must control the harbor with a settlement or city.
+
+Q: Can you build a road through another player’s settlement?
+A: No, you cannot pass through another player’s settlement or city.
+
+Q: Can you move the robber onto a hex where you have a settlement?
+A: Yes, but it still blocks that hex from producing.
+
+Q: Can you trade with another player during their turn?
+A: Yes, trading can happen on any player’s turn, but only the current player can trade with the bank.
+
+Q: Can you play multiple development cards on the same turn?
+A: No, only one development card per turn (except Victory Points).
+
+Q: Can you build a settlement and upgrade it to a city in the same turn?
+A: Yes, if you have enough resources for both actions.
+
+Q: Can you use a Knight card before rolling the dice?
+A: No, you must roll first, then play the Knight.
+
+Q: What happens if two players tie for Longest Road?
+A: Neither gets the card until one has the clear lead.
+
+Q: How are roads placed?
+A: Each road must connect to one of your existing roads, settlements, or cities.
+
+Q: Can a player build disconnected roads?
+A: No, every new road must connect to your existing network.
+
+Q: What does a Year of Plenty card do?
+A: It gives you any two resource cards from the bank.
+
+Q: What is needed to upgrade a settlement to a city?
+A: 3 ore and 2 grain.
+
+Q: Can you build during another player’s turn?
+A: No, only on your own turn.
+
+Q: What happens if the bank runs out of development cards?
+A: No more can be purchased until someone uses or returns one (rare).
+
+Q: What happens if a 7 is rolled and you have 8 cards?
+A: You must discard 4 cards (half, rounded down).
+
+Q: Can you lose the Longest Road card?
+A: Yes, if another player builds a longer continuous road.
+
+Q: Can you trade with the bank during another player’s turn?
+A: No, only the active player can trade with the bank.
+
+Q: Can the robber block your own settlement?
+A: Yes, you also get no production from that hex.
+
+Q: What happens if the resource deck runs out?
+A: Players cannot collect that resource until others return some to the bank.
+
+Q: Can you build roads in any direction?
+A: Yes, as long as each connects to your existing network.
+
+Q: How many cities can you have at most?
+A: 4, since you only have 4 city pieces.
+
+Q: What happens if the robber is placed on the desert?
+A: The desert produces nothing, and it remains blocked.
+
+Q: Can you trade after building on your turn?
+A: Yes, trading and building can occur in any order.
+
+Q: Can you use a Knight card to move the robber onto the same hex?
+A: No, you must move it to a different hex.
+
+Q: What happens if two players both reach 10 points in the same round?
+A: The player whose turn it is wins immediately.
+
+Q: Can the robber be placed on a hex with no adjacent settlements?
+A: Yes, but it only blocks production — no stealing occurs.
+
+Q: What happens if someone cuts your Longest Road in half?
+A: You lose the title until you rebuild and surpass them.
+
+Q: Can you play a Monopoly card and then trade in the same turn?
+A: Yes, that’s allowed after the effect resolves.
+
+Q: Can you use Road Building to block another player?
+A: Yes, as long as your roads follow placement rules.
+
+Q: What happens if the bank runs out of a resource type?
+A: That resource cannot be given out until someone pays it back.
+
+Q: Can you play development cards after you roll a 7?
+A: Yes, after resolving the robber phase.

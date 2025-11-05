@@ -1,0 +1,30 @@
+Board_game: CATAN
+Q: Can you build multiple things in one turn?
+A: Yes, as long as you have the resources.
+
+Q: What is a good beginner strategy?
+A: Settle near diverse resources and high-frequency numbers like 6 and 8.
+
+Q: Can you reveal multiple Victory Point cards in the same turn?
+A: Yes, you can reveal all at once to win.
+
+Q: What is the probability of rolling a 7?
+A: It’s the most common roll — about 1 in 6 (6/36).
+
+Q: Can you play development cards after building?
+A: Yes, you can play one card at any time during your turn after rolling.
+
+Q: Can you build roads that connect two separate areas you control?
+A: Yes, once connected they form one network.
+
+Q: What happens if you can’t pay when you must discard half your cards?
+A: You must discard the closest number possible (rounded down).
+
+Q: Can you play a development card immediately after buying it?
+A: No, except for Victory Points.
+
+Q: What does a Road Building card do?
+A: It lets you place two free roads immediately.
+
+Q: Can you use a Knight card to move the robber to an empty hex?
+A: Yes, even if no one is there to steal from.
