@@ -30,6 +30,11 @@ st.set_page_config(
 # Custom CSS for mobile responsiveness
 st.markdown("""
 <style>
+    /* Main page title (st.title) */
+    h1 {
+        font-size: 2rem;
+    }
+            
     /* Mobile-first responsive design */
     .main {
         padding: 1rem;
@@ -136,7 +141,7 @@ def format_answer_with_sources(answer, context):
     # Display answer
     st.markdown(f"""
     <div class="answer-box">
-        <h3>💡 Answer</h3>
+        <h4>💡 Answer</h4>
         <p>{answer}</p>
     </div>
     """, unsafe_allow_html=True)
@@ -172,28 +177,8 @@ def main():
         time.sleep(0.5)  # Brief pause to show success message
         st.rerun()
     
-    # Quick question suggestions (mobile-friendly cards)
-    st.markdown("### 🔍 Try these questions:")
-    
-    example_questions = [
-        "How do you win the game?",
-        "What happens when you roll a 7?",
-        "How do you build a settlement?",
-        "What is the longest road?",
-        "How many resource cards can you have?"
-    ]
-    
-    # Create a grid of question buttons (2 per row on mobile)
-    cols = st.columns(2)
-    for idx, question in enumerate(example_questions):
-        with cols[idx % 2]:
-            if st.button(question, key=f"example_{idx}", use_container_width=True):
-                st.session_state.current_question = question
-    
-    st.markdown("---")
-    
     # Main input area
-    st.markdown("### 💬 Ask your question:")
+    st.markdown("#### 💬 What do you want to know about this game?")
     
     # Text input
     user_question = st.text_input(
@@ -230,64 +215,84 @@ def main():
                 # Display result
                 format_answer_with_sources(answer, context)
                 
-                # Store in history
-                st.session_state.chat_history[0]['answer'] = answer
-                st.session_state.chat_history[0]['context'] = context
+                # # Store in history
+                # st.session_state.chat_history[0]['answer'] = answer
+                # st.session_state.chat_history[0]['context'] = context
                 
             except Exception as e:
                 st.error(f"❌ Error: {str(e)}")
     
-    # Show chat history
-    if st.session_state.chat_history:
-        st.markdown("---")
-        st.markdown("### 📜 Recent Questions")
-        
-        # Limit to last 5 questions on mobile
-        for i, chat in enumerate(st.session_state.chat_history[:5]):
-            if i > 0:  # Skip the current question (already displayed above)
-                with st.expander(f"🕐 {chat['timestamp']} - {chat['question']}", expanded=False):
-                    if 'answer' in chat:
-                        st.markdown(f"**Answer:** {chat['answer']}")
-                        if st.checkbox(f"Show sources", key=f"sources_{i}"):
-                            for j, source in enumerate(chat.get('context', []), 1):
-                                st.markdown(f"**Source {j}:** {source[:200]}...")
+    # Quick question suggestions (mobile-friendly cards)
+    st.markdown("#### 🔍 Popular Questions:")
     
-    # Sidebar for settings (collapsible on mobile)
-    with st.sidebar:
-        st.markdown("### ⚙️ Settings")
+    example_questions = [
+        "How do you win the game?",
+        "What happens when you roll a 7?",
+        "How do you build a settlement?",
+        "What is the longest road?",
+        "How many resource cards can you have?"
+    ]
+    
+    # Create a grid of question buttons (2 per row on mobile)
+    cols = st.columns(2)
+    for idx, question in enumerate(example_questions):
+        with cols[idx % 2]:
+            if st.button(question, key=f"example_{idx}", use_container_width=True):
+                st.session_state.current_question = question
+    
+    st.markdown("---")
+
+    # # Show chat history
+    # if st.session_state.chat_history:
+    #     st.markdown("---")
+    #     st.markdown("### 📜 Recent Questions")
         
-        # Top-K selector
-        k_value = st.slider(
-            "Number of sources to retrieve",
-            min_value=1,
-            max_value=10,
-            value=DEMO_TOP_K,
-            help="Higher values provide more context but may include less relevant information"
-        )
+    #     # Limit to last 5 questions on mobile
+    #     for i, chat in enumerate(st.session_state.chat_history[:5]):
+    #         if i > 0:  # Skip the current question (already displayed above)
+    #             with st.expander(f"🕐 {chat['timestamp']} - {chat['question']}", expanded=False):
+    #                 if 'answer' in chat:
+    #                     st.markdown(f"**Answer:** {chat['answer']}")
+    #                     if st.checkbox(f"Show sources", key=f"sources_{i}"):
+    #                         for j, source in enumerate(chat.get('context', []), 1):
+    #                             st.markdown(f"**Source {j}:** {source[:200]}...")
+    
+    # # Sidebar for settings (collapsible on mobile)
+    # with st.sidebar:
+    #     st.markdown("### ⚙️ Settings")
         
-        if k_value != DEMO_TOP_K:
-            st.info(f"Using top-{k_value} retrieval")
+    #     # Top-K selector
+    #     k_value = st.slider(
+    #         "Number of sources to retrieve",
+    #         min_value=1,
+    #         max_value=10,
+    #         value=DEMO_TOP_K,
+    #         help="Higher values provide more context but may include less relevant information"
+    #     )
         
-        st.markdown("---")
+    #     if k_value != DEMO_TOP_K:
+    #         st.info(f"Using top-{k_value} retrieval")
         
-        # Clear history button
-        if st.button("🗑️ Clear History", use_container_width=True):
-            st.session_state.chat_history = []
-            st.rerun()
+    #     st.markdown("---")
         
-        st.markdown("---")
+    #     # Clear history button
+    #     if st.button("🗑️ Clear History", use_container_width=True):
+    #         st.session_state.chat_history = []
+    #         st.rerun()
         
-        # About section
-        st.markdown("### ℹ️ About")
-        st.markdown("""
-        This AI assistant answers questions about CATAN using:
-        - 🤖 GPT-3.5 for natural language understanding
-        - 🔍 Semantic search for accurate information retrieval
-        - 📚 Official CATAN rulebook as knowledge base
-        """)
+    #     st.markdown("---")
         
-        st.markdown("---")
-        st.markdown("Made with ❤️ using Streamlit")
+    #     # About section
+    #     st.markdown("### ℹ️ About")
+    #     st.markdown("""
+    #     This AI assistant answers questions about CATAN using:
+    #     - 🤖 GPT-3.5 for natural language understanding
+    #     - 🔍 Semantic search for accurate information retrieval
+    #     - 📚 Official CATAN rulebook as knowledge base
+    #     """)
+        
+    #     st.markdown("---")
+    #     st.markdown("Made with ❤️ using Streamlit")
 
 
 if __name__ == "__main__":
