@@ -156,7 +156,7 @@ def format_answer_with_sources(answer, context):
 
 def main():
     # Header
-    st.markdown("### 🎲 Board Game Q&A Assistant (CATAN)")
+    st.markdown("## 🎲 Board Game Q&A Assistant (CATAN)")
     st.markdown("*Ask me anything about CATAN rules!*")
     
     # Initialize system
