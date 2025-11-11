@@ -18,7 +18,7 @@ st.set_page_config(
     page_title="Board Game Q&A Assistant",
     page_icon="🎲",
     layout="wide",
-    initial_sidebar_state="collapsed",  # Better for mobile
+    initial_sidebar_state="collapsed",
     menu_items={
         'Get Help': 'https://github.com/yourusername/rag-board-game-qa',
         'Report a bug': 'https://github.com/yourusername/rag-board-game-qa/issues',
@@ -63,20 +63,6 @@ st.markdown("""
         font-weight: 600;
     }
     
-    /* Question cards */
-    .question-card {
-        background-color: #f0f2f6;
-        border-radius: 10px;
-        padding: 1rem;
-        margin: 0.5rem 0;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    
-    .question-card:hover {
-        background-color: #e0e2e6;
-    }
-    
     /* Answer styling */
     .answer-box {
         background-color: #e8f4f8;
@@ -114,8 +100,11 @@ if 'rag_system' not in st.session_state:
     st.session_state.rag_system = None
 if 'initialized' not in st.session_state:
     st.session_state.initialized = False
-if 'process_question' not in st.session_state:
-    st.session_state.process_question = False
+if 'last_qa' not in st.session_state:
+    st.session_state.last_qa = None
+if 'current_question' not in st.session_state:
+    st.session_state.current_question = ''
+
 
 @st.cache_resource
 def load_rag_system():
@@ -157,9 +146,6 @@ def format_answer_with_sources(question, answer, context):
             </div>
             """, unsafe_allow_html=True)
 
-def handle_question_input():
-    """Callback function when Enter is pressed in text input"""
-    st.session_state.process_question = True
 
 def process_query(query_text):
     """Process a question and display the answer"""
@@ -171,11 +157,17 @@ def process_query(query_text):
                 return_context=True
             )
             
-            # Display result with question
-            format_answer_with_sources(query_text, answer, context)
+            # Store the Q&A in session state
+            st.session_state.last_qa = {
+                'question': query_text,
+                'answer': answer,
+                'context': context
+            }
             
         except Exception as e:
             st.error(f"❌ Error: {str(e)}")
+            st.session_state.last_qa = None
+
 
 def main():
     # Header
@@ -192,15 +184,11 @@ def main():
         st.session_state.rag_system = rag
         st.session_state.initialized = True
         st.success("✅ System ready!")
-        time.sleep(0.5)  # Brief pause to show success message
+        time.sleep(0.5)
         st.rerun()
     
     # Main input area
     st.markdown("#### 💬 What would you like to know about this game?")
-    
-    # Initialize current_question if not exists
-    if 'current_question' not in st.session_state:
-        st.session_state.current_question = ''
     
     # Text input
     user_question = st.text_input(
@@ -208,20 +196,19 @@ def main():
         value=st.session_state.current_question,
         placeholder=f"e.g., {DEFAULT_QUESTION}",
         label_visibility="collapsed",
-        key="question_input",
-        on_change=handle_question_input
+        key="question_input"
     )
     
     # Search button
     search_clicked = st.button("🔍 Search", type="primary", use_container_width=True)
     
-    # Process question
-    if search_clicked or st.session_state.process_question:
-        # Reset the flag
-        st.session_state.process_question = False
-        
+    # Process question only when search is clicked or Enter is pressed
+    if search_clicked and user_question != st.session_state.get('last_processed_question', ''):
         # Use default question if input is empty
         query_to_process = user_question.strip() if user_question.strip() else DEFAULT_QUESTION
+        
+        # Track the last processed question to avoid duplicates
+        st.session_state.last_processed_question = query_to_process
         
         # Process the query
         process_query(query_to_process)
@@ -229,6 +216,14 @@ def main():
         # Clear the input field after processing
         st.session_state.current_question = ''
         st.rerun()
+    
+    # Display last Q&A if it exists (persists across reruns)
+    if st.session_state.last_qa:
+        format_answer_with_sources(
+            st.session_state.last_qa['question'],
+            st.session_state.last_qa['answer'],
+            st.session_state.last_qa['context']
+        )
     
     # Quick question suggestions (mobile-friendly cards)
     st.markdown("#### 🔍 Popular Questions:")
@@ -246,10 +241,11 @@ def main():
     for idx, question in enumerate(example_questions):
         with cols[idx % 2]:
             if st.button(question, key=f"example_{idx}", use_container_width=True):
-                # Update the current question
+                # Set the question and process it
                 st.session_state.current_question = question
-                # Trigger processing
-                st.session_state.process_question = True
+                st.session_state.last_processed_question = question
+                process_query(question)
+                st.session_state.current_question = ''
                 st.rerun()
     
     st.markdown("---")
