@@ -1,13 +1,18 @@
 """
 Configuration settings for the RAG evaluation system.
 """
-
+import os
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
+import streamlit as st
 
-# Load environment variables
-load_dotenv()
+try:
+    if "OPENAI_API_KEY" in st.secrets:
+        os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+except:
+    # Fallback to .env file for local development
+    load_dotenv()
 
 # Logging configuration
 logging.basicConfig(
