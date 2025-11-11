@@ -110,11 +110,12 @@ st.markdown("""
 # Initialize session state
 if 'rag_system' not in st.session_state:
     st.session_state.rag_system = None
-if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = []
+# if 'chat_history' not in st.session_state:
+#     st.session_state.chat_history = []
 if 'initialized' not in st.session_state:
     st.session_state.initialized = False
-
+if 'process_question' not in st.session_state:
+    st.session_state.process_question = False
 
 @st.cache_resource
 def load_rag_system():
@@ -153,6 +154,9 @@ def format_answer_with_sources(answer, context):
             </div>
             """, unsafe_allow_html=True)
 
+def handle_question_input():
+    """Callback function when Enter is pressed in text input"""
+    st.session_state.process_question = True
 
 def main():
     # Header
@@ -180,23 +184,31 @@ def main():
         "Type your question here...",
         value=st.session_state.get('current_question', ''),
         placeholder="e.g., How do I trade with other players?",
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        key="question_input",
+        on_change=handle_question_input
     )
     
     # Search button
     search_clicked = st.button("🔍 Search", type="primary", use_container_width=True)
     
     # Process question
-    if search_clicked and user_question:
+    if search_clicked or st.session_state.process_question:
+        # Reset the flag
+        st.session_state.process_question = False
+
+        # Use default question if input is empty
+        user_question = user_question.strip() if user_question.strip() else DEFAULT_QUESTION
+
         # Clear previous question from state
         if 'current_question' in st.session_state:
             del st.session_state.current_question
-        
-        # Add to chat history
-        st.session_state.chat_history.insert(0, {
-            'question': user_question,
-            'timestamp': time.strftime("%H:%M")
-        })
+
+        # # Add to chat history
+        # st.session_state.chat_history.insert(0, {
+        #     'question': user_question,
+        #     'timestamp': time.strftime("%H:%M")
+        # })
         
         # Get answer
         with st.spinner("🤔 Thinking..."):
@@ -209,10 +221,6 @@ def main():
                 
                 # Display result
                 format_answer_with_sources(answer, context)
-                
-                # # Store in history
-                # st.session_state.chat_history[0]['answer'] = answer
-                # st.session_state.chat_history[0]['context'] = context
                 
             except Exception as e:
                 st.error(f"❌ Error: {str(e)}")
@@ -236,58 +244,6 @@ def main():
                 st.session_state.current_question = question
     
     st.markdown("---")
-
-    # # Show chat history
-    # if st.session_state.chat_history:
-    #     st.markdown("---")
-    #     st.markdown("### 📜 Recent Questions")
-        
-    #     # Limit to last 5 questions on mobile
-    #     for i, chat in enumerate(st.session_state.chat_history[:5]):
-    #         if i > 0:  # Skip the current question (already displayed above)
-    #             with st.expander(f"🕐 {chat['timestamp']} - {chat['question']}", expanded=False):
-    #                 if 'answer' in chat:
-    #                     st.markdown(f"**Answer:** {chat['answer']}")
-    #                     if st.checkbox(f"Show sources", key=f"sources_{i}"):
-    #                         for j, source in enumerate(chat.get('context', []), 1):
-    #                             st.markdown(f"**Source {j}:** {source[:200]}...")
-    
-    # # Sidebar for settings (collapsible on mobile)
-    # with st.sidebar:
-    #     st.markdown("### ⚙️ Settings")
-        
-    #     # Top-K selector
-    #     k_value = st.slider(
-    #         "Number of sources to retrieve",
-    #         min_value=1,
-    #         max_value=10,
-    #         value=DEMO_TOP_K,
-    #         help="Higher values provide more context but may include less relevant information"
-    #     )
-        
-    #     if k_value != DEMO_TOP_K:
-    #         st.info(f"Using top-{k_value} retrieval")
-        
-    #     st.markdown("---")
-        
-    #     # Clear history button
-    #     if st.button("🗑️ Clear History", use_container_width=True):
-    #         st.session_state.chat_history = []
-    #         st.rerun()
-        
-    #     st.markdown("---")
-        
-    #     # About section
-    #     st.markdown("### ℹ️ About")
-    #     st.markdown("""
-    #     This AI assistant answers questions about CATAN using:
-    #     - 🤖 GPT-3.5 for natural language understanding
-    #     - 🔍 Semantic search for accurate information retrieval
-    #     - 📚 Official CATAN rulebook as knowledge base
-    #     """)
-        
-    #     st.markdown("---")
-    #     st.markdown("Made with ❤️ using Streamlit")
 
 
 if __name__ == "__main__":
