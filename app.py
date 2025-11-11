@@ -29,12 +29,7 @@ st.set_page_config(
 
 # Custom CSS for mobile responsiveness
 st.markdown("""
-<style>
-    /* Main page title (st.title) */
-    h1 {
-        font-size: 1.5rem;
-    }
-            
+<style>            
     /* Mobile-first responsive design */
     .main {
         padding: 1rem;
@@ -161,7 +156,7 @@ def format_answer_with_sources(answer, context):
 
 def main():
     # Header
-    st.title("🎲 Board Game Q&A Assistant (CATAN)")
+    st.markdown("### 🎲 Board Game Q&A Assistant (CATAN)")
     st.markdown("*Ask me anything about CATAN rules!*")
     
     # Initialize system
