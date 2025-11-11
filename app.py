@@ -32,7 +32,7 @@ st.markdown("""
 <style>
     /* Main page title (st.title) */
     h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
             
     /* Mobile-first responsive design */
@@ -161,7 +161,7 @@ def format_answer_with_sources(answer, context):
 
 def main():
     # Header
-    st.title("🎲 Board Game Q&A Assistant")
+    st.title("🎲 Board Game Q&A Assistant (CATAN)")
     st.markdown("*Ask me anything about CATAN rules!*")
     
     # Initialize system
@@ -178,7 +178,7 @@ def main():
         st.rerun()
     
     # Main input area
-    st.markdown("#### 💬 What do you want to know about this game?")
+    st.markdown("#### 💬 What would you like to know about this game?")
     
     # Text input
     user_question = st.text_input(
