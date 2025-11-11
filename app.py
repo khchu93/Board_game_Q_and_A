@@ -13,18 +13,6 @@ import time
 from rag_system import RAGSystem
 from config import PDF_PATH, DEMO_TOP_K
 
-from dotenv import load_dotenv
-import streamlit as st
-import os
-
-try:
-    if "OPENAI_API_KEY" in st.secrets:
-        os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
-except:
-    # Fallback to .env file for local development
-    load_dotenv()
-
-
 # Page configuration - MUST be first Streamlit command
 st.set_page_config(
     page_title="Board Game Q&A Assistant",
