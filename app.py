@@ -26,7 +26,7 @@ st.set_page_config(
     }
 )
 
-# Default placeholder question
+# Constants
 DEFAULT_QUESTION = "How do I trade with other players?"
 
 # Custom CSS for mobile responsiveness
@@ -96,14 +96,16 @@ st.markdown("""
 
 
 # Initialize session state
-if 'rag_system' not in st.session_state:
-    st.session_state.rag_system = None
-if 'initialized' not in st.session_state:
-    st.session_state.initialized = False
-if 'last_qa' not in st.session_state:
-    st.session_state.last_qa = None
-if 'current_question' not in st.session_state:
-    st.session_state.current_question = ''
+def init_session_state():
+    """Initialize all session state variables"""
+    if 'rag_system' not in st.session_state:
+        st.session_state.rag_system = None
+    if 'initialized' not in st.session_state:
+        st.session_state.initialized = False
+    if 'last_qa' not in st.session_state:
+        st.session_state.last_qa = None
+    if 'last_processed_question' not in st.session_state:
+        st.session_state.last_processed_question = ''
 
 
 @st.cache_resource
@@ -147,19 +149,19 @@ def format_answer_with_sources(question, answer, context):
             """, unsafe_allow_html=True)
 
 
-def process_query(query_text):
-    """Process a question and display the answer"""
+def get_answer(question):
+    """Get answer for a question and store in session state"""
     with st.spinner("🤔 Thinking..."):
         try:
             answer, context = st.session_state.rag_system.answer_question(
-                query_text,
+                question,
                 k=DEMO_TOP_K,
                 return_context=True
             )
             
             # Store the Q&A in session state
             st.session_state.last_qa = {
-                'question': query_text,
+                'question': question,
                 'answer': answer,
                 'context': context
             }
@@ -169,7 +171,27 @@ def process_query(query_text):
             st.session_state.last_qa = None
 
 
+def handle_question(question):
+    """Process a question if it's new"""
+    question = question.strip()
+    
+    # Use default question if empty
+    if not question:
+        question = DEFAULT_QUESTION
+    
+    # Only process if it's a new question
+    if question != st.session_state.last_processed_question:
+        st.session_state.last_processed_question = question
+        get_answer(question)
+        return True
+    return False
+
+
 def main():
+    """Main application function"""
+    # Initialize session state
+    init_session_state()
+    
     # Header
     st.markdown("## 🎲 Board Game Q&A Assistant (CATAN)")
     st.markdown("*Ask me anything about CATAN rules!*")
@@ -190,34 +212,27 @@ def main():
     # Main input area
     st.markdown("#### 💬 What would you like to know about this game?")
     
-    # Text input
-    user_question = st.text_input(
-        "Type your question here...",
-        value=st.session_state.current_question,
-        placeholder=f"e.g., {DEFAULT_QUESTION}",
-        label_visibility="collapsed",
-        key="question_input"
-    )
-    
-    # Search button
-    search_clicked = st.button("🔍 Search", type="primary", use_container_width=True)
-    
-    # Process question only when search is clicked or Enter is pressed
-    if search_clicked and user_question != st.session_state.get('last_processed_question', ''):
-        # Use default question if input is empty
-        query_to_process = user_question.strip() if user_question.strip() else DEFAULT_QUESTION
+    # Use form to handle Enter key properly
+    with st.form(key="question_form", clear_on_submit=True):
+        user_question = st.text_input(
+            "Type your question here...",
+            placeholder=f"e.g., {DEFAULT_QUESTION}",
+            label_visibility="collapsed",
+            key="question_input"
+        )
         
-        # Track the last processed question to avoid duplicates
-        st.session_state.last_processed_question = query_to_process
-        
-        # Process the query
-        process_query(query_to_process)
-        
-        # Clear the input field after processing
-        st.session_state.current_question = ''
-        st.rerun()
+        search_clicked = st.form_submit_button(
+            "🔍 Search", 
+            type="primary", 
+            use_container_width=True
+        )
     
-    # Display last Q&A if it exists (persists across reruns)
+    # Process question when form is submitted
+    if search_clicked:
+        if handle_question(user_question):
+            st.rerun()
+    
+    # Display last Q&A if it exists
     if st.session_state.last_qa:
         format_answer_with_sources(
             st.session_state.last_qa['question'],
@@ -225,7 +240,7 @@ def main():
             st.session_state.last_qa['context']
         )
     
-    # Quick question suggestions (mobile-friendly cards)
+    # Quick question suggestions
     st.markdown("#### 🔍 Popular Questions:")
     
     example_questions = [
@@ -241,12 +256,8 @@ def main():
     for idx, question in enumerate(example_questions):
         with cols[idx % 2]:
             if st.button(question, key=f"example_{idx}", use_container_width=True):
-                # Set the question and process it
-                st.session_state.current_question = question
-                st.session_state.last_processed_question = question
-                process_query(question)
-                st.session_state.current_question = ''
-                st.rerun()
+                if handle_question(question):
+                    st.rerun()
     
     st.markdown("---")
 
