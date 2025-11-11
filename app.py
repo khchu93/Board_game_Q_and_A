@@ -26,6 +26,8 @@ st.set_page_config(
     }
 )
 
+# Default placeholder question
+DEFAULT_QUESTION = "How do I trade with other players?"
 
 # Custom CSS for mobile responsiveness
 st.markdown("""
@@ -110,8 +112,6 @@ st.markdown("""
 # Initialize session state
 if 'rag_system' not in st.session_state:
     st.session_state.rag_system = None
-# if 'chat_history' not in st.session_state:
-#     st.session_state.chat_history = []
 if 'initialized' not in st.session_state:
     st.session_state.initialized = False
 if 'process_question' not in st.session_state:
@@ -132,11 +132,14 @@ def load_rag_system():
         return None, str(e)
 
 
-def format_answer_with_sources(answer, context):
-    """Format answer and sources in a mobile-friendly way"""
-    # Display answer
+def format_answer_with_sources(question, answer, context):
+    """Format question, answer and sources in a mobile-friendly way"""
+    # Display question and answer in the same container
     st.markdown(f"""
     <div class="answer-box">
+        <h4>❓ Question</h4>
+        <p>{question}</p>
+        <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ccc;">
         <h4>💡 Answer</h4>
         <p>{answer}</p>
     </div>
@@ -157,6 +160,22 @@ def format_answer_with_sources(answer, context):
 def handle_question_input():
     """Callback function when Enter is pressed in text input"""
     st.session_state.process_question = True
+
+def process_query(query_text):
+    """Process a question and display the answer"""
+    with st.spinner("🤔 Thinking..."):
+        try:
+            answer, context = st.session_state.rag_system.answer_question(
+                query_text,
+                k=DEMO_TOP_K,
+                return_context=True
+            )
+            
+            # Display result with question
+            format_answer_with_sources(query_text, answer, context)
+            
+        except Exception as e:
+            st.error(f"❌ Error: {str(e)}")
 
 def main():
     # Header
@@ -179,11 +198,15 @@ def main():
     # Main input area
     st.markdown("#### 💬 What would you like to know about this game?")
     
+    # Initialize current_question if not exists
+    if 'current_question' not in st.session_state:
+        st.session_state.current_question = ''
+    
     # Text input
     user_question = st.text_input(
         "Type your question here...",
-        value=st.session_state.get('current_question', ''),
-        placeholder="e.g., How do I trade with other players?",
+        value=st.session_state.current_question,
+        placeholder=f"e.g., {DEFAULT_QUESTION}",
         label_visibility="collapsed",
         key="question_input",
         on_change=handle_question_input
@@ -196,34 +219,16 @@ def main():
     if search_clicked or st.session_state.process_question:
         # Reset the flag
         st.session_state.process_question = False
-
-        # Use default question if input is empty
-        user_question = user_question.strip() if user_question.strip() else DEFAULT_QUESTION
-
-        # Clear previous question from state
-        if 'current_question' in st.session_state:
-            del st.session_state.current_question
-
-        # # Add to chat history
-        # st.session_state.chat_history.insert(0, {
-        #     'question': user_question,
-        #     'timestamp': time.strftime("%H:%M")
-        # })
         
-        # Get answer
-        with st.spinner("🤔 Thinking..."):
-            try:
-                answer, context = st.session_state.rag_system.answer_question(
-                    user_question,
-                    k=DEMO_TOP_K,
-                    return_context=True
-                )
-                
-                # Display result
-                format_answer_with_sources(answer, context)
-                
-            except Exception as e:
-                st.error(f"❌ Error: {str(e)}")
+        # Use default question if input is empty
+        query_to_process = user_question.strip() if user_question.strip() else DEFAULT_QUESTION
+        
+        # Process the query
+        process_query(query_to_process)
+        
+        # Clear the input field after processing
+        st.session_state.current_question = ''
+        st.rerun()
     
     # Quick question suggestions (mobile-friendly cards)
     st.markdown("#### 🔍 Popular Questions:")
@@ -241,7 +246,11 @@ def main():
     for idx, question in enumerate(example_questions):
         with cols[idx % 2]:
             if st.button(question, key=f"example_{idx}", use_container_width=True):
+                # Update the current question
                 st.session_state.current_question = question
+                # Trigger processing
+                st.session_state.process_question = True
+                st.rerun()
     
     st.markdown("---")
 
