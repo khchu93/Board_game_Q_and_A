@@ -3,7 +3,7 @@ chroma
 .DS_Store
 
 # ignore API key
-.streamlit/secrets.toml
+streamlit/secrets.toml
 .env
 .env.local
 .env.*.local
