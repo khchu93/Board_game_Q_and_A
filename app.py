@@ -57,6 +57,11 @@ st.markdown("""
         padding: 0.75rem;
     }
     
+    /* Hide form helper text */
+    .stTextInput > label > div[data-testid="stMarkdownContainer"] > p {
+        display: none;
+    }
+    
     /* Expandable sections for better mobile UX */
     .streamlit-expanderHeader {
         font-size: 18px;
