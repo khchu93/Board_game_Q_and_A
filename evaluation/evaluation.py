@@ -29,12 +29,13 @@ from src.chunking import split_text, generate_relevant_chunks_with_coverage, get
 from src.vector_store import prepare_chunks_for_chroma, save_to_chroma, retrieve_top_k
 from evaluation.metrics import dcg, ndcg_at_k
 from src.exceptions import RAGEvaluationError, EvaluationError
-from src.config import PROMPT_TEMPLATE, LLM_MODEL
+from src.config import LLM_MODEL
+from src.prompts import PROMPT_TEMPLATES
 
 logger = logging.getLogger(__name__)
 
 
-def generate_answer(question: str, context: List[str], llm) -> str:
+def generate_answer(question: str, context: List[str], llm, prompt: str) -> str:
     """
     Generate answer using LLM (for evaluation purposes).
     
@@ -42,6 +43,7 @@ def generate_answer(question: str, context: List[str], llm) -> str:
         question: User question
         context: List of relevant text chunks
         llm: LLM instance
+        prompt: selected prompt template
         
     Returns:
         Generated answer as string
@@ -49,7 +51,7 @@ def generate_answer(question: str, context: List[str], llm) -> str:
     from langchain_classic.prompts import ChatPromptTemplate
     
     context_text = "\n\n---\n\n".join(context)
-    prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
+    prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATES["default"])
     prompt = prompt_template.format(context=context_text, question=question)
     
     response = llm.invoke(prompt)
@@ -191,7 +193,8 @@ def evaluate_retrieval(
 
 def evaluate_generation(
     query_results: List[Dict[str, Any]],
-    llm_model: str = LLM_MODEL
+    llm_model: str = LLM_MODEL,
+    prompt: str = "default"
 ) -> Dict[str, Any]:
     """
     Evaluate answer generation quality using RAGAS metrics.
@@ -199,6 +202,7 @@ def evaluate_generation(
     Args:
         query_results: Results from retrieval evaluation
         llm_model: LLM model for generation
+        prompt: selected prompt template
         
     Returns:
         Dictionary with generation evaluation metrics
@@ -218,7 +222,7 @@ def evaluate_generation(
             top_k_content = query_result.get("top_k_content")
             gt_answer = query_result.get("gt_answer")
             
-            answer = generate_answer(question, top_k_content, llm)
+            answer = generate_answer(question, top_k_content, llm, prompt)
             
             evaluation_rows.append({
                 "question": question,

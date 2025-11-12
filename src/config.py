@@ -41,12 +41,4 @@ CHUNK_OVERLAPS = [30]
 TOP_K_VALUES = [3]
 
 # Prompt template
-PROMPT_TEMPLATE = """
-Answer the question based only on the following context:
-
-{context}
-
----
-
-Answer the question based on the above context: {question}
-"""
+PROMPT_TEMPLATE = "default"

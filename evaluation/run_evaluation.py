@@ -24,7 +24,8 @@ from src.config import (
     CHUNK_OVERLAPS,
     TOP_K_VALUES,
     EMBEDDING_MODEL,
-    LLM_MODEL
+    LLM_MODEL,
+    PROMPT_TEMPLATE
 )
 
 
@@ -76,7 +77,8 @@ def main():
             print("  Running generation evaluation...")
             generation_result = evaluate_generation(
                 query_results=retrieval_result["query_results"],
-                llm_model=LLM_MODEL
+                llm_model=LLM_MODEL,
+                prompt=PROMPT_TEMPLATE
             )
             
             # Store generation results

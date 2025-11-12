@@ -18,7 +18,8 @@ sys.path.insert(0, str(project_root))
 from src.document_loader import load_documents
 from src.chunking import split_text
 from src.vector_store import prepare_chunks_for_chroma, save_to_chroma, retrieve_top_k
-from src.config import PROMPT_TEMPLATE, LLM_MODEL, LLM_TEMPERATURE, DEMO_CHUNK_SIZE, DEMO_CHUNK_OVERLAP
+from src.config import LLM_MODEL, LLM_TEMPERATURE, DEMO_CHUNK_SIZE, DEMO_CHUNK_OVERLAP
+from src.prompts import PROMPT_TEMPLATES
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +100,8 @@ class RAGSystem:
         self, 
         question: str, 
         context: List[str], 
-        print_prompt: bool = False
+        print_prompt: bool = False,
+        prompt:str = "default"
     ) -> str:
         """
         Generate answer using LLM based on retrieved context.
@@ -114,7 +116,7 @@ class RAGSystem:
         """
         # Generate the prompt template with context and query
         context_text = "\n\n---\n\n".join(context)
-        prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
+        prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATES[prompt])
         prompt = prompt_template.format(context=context_text, question=question)
         
         if print_prompt:
@@ -133,7 +135,8 @@ class RAGSystem:
         question: str, 
         k: int = 3,
         print_prompt: bool = False,
-        return_context: bool = False
+        return_context: bool = False,
+        prompt: str = "default"
     ) -> str:
         """
         End-to-end question answering: retrieve + generate.
@@ -143,6 +146,7 @@ class RAGSystem:
             k: Number of chunks to retrieve
             print_prompt: Whether to print the full prompt
             return_context: Whether to return context along with answer
+            prompt: Selected prompt template
             
         Returns:
             Generated answer (or tuple of (answer, context) if return_context=True)
@@ -152,7 +156,7 @@ class RAGSystem:
         context = [content for _, content, _, _ in results]
         
         # Generate answer
-        answer = self.generate_answer(question, context, print_prompt=print_prompt)
+        answer = self.generate_answer(question, context, print_prompt=print_prompt, prompt=prompt)
         
         if return_context:
             return answer, context

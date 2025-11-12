@@ -17,7 +17,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.rag_system import RAGSystem
-from src.config import PDF_PATH, DEMO_TOP_K
+from src.config import PDF_PATH, DEMO_TOP_K,PROMPT_TEMPLATE
 
 # Page configuration - MUST be first Streamlit command
 st.set_page_config(
@@ -165,7 +165,8 @@ def get_answer(question):
         answer, context = st.session_state.rag_system.answer_question(
             question,
             k=DEMO_TOP_K,
-            return_context=True
+            return_context=True,
+            prompt=PROMPT_TEMPLATE
         )
         
         # Store the Q&A in session state
@@ -213,11 +214,9 @@ def main():
     st.markdown("*Ask me anything about CATAN rules!*")
     # Link button
     st.link_button(
-    "📖 Open CATAN Rulebook (PDF)",
+    "📚 Open CATAN Rulebook (PDF)",
     "https://www.catan.com/sites/default/files/2025-03/CN3081%20CATAN%E2%80%93The%20Game%20Rulebook%20secure%20%281%29.pdf"
 )
-    
-
 
     # Initialize system
     if not st.session_state.initialized:

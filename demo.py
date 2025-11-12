@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 from src.rag_system import RAGSystem
-from src.config import PDF_PATH, DEMO_TOP_K
+from src.config import PDF_PATH, DEMO_TOP_K, PROMPT_TEMPLATE
 
 
 def print_header():
@@ -80,7 +80,8 @@ def main():
             answer, context = rag.answer_question(
                 question, 
                 k=DEMO_TOP_K,
-                return_context=True
+                return_context=True,
+                prompt=PROMPT_TEMPLATE
             )
             
             # Display answer
