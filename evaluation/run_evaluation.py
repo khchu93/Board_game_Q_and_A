@@ -107,14 +107,14 @@ def main():
     
     # Retrieval results
     retrieval_df = pd.DataFrame(retrieval_results)
-    retrieval_df.to_csv("rag_retrieval_eval.csv", index=False)
+    retrieval_df.to_csv("evaluation/results_csv/rag_retrieval_eval.csv", index=False)
     print("✅ Retrieval results saved to: rag_retrieval_eval.csv")
     print("\nTop 3 configurations by nDCG:")
     print(retrieval_df.nlargest(3, "avg_ndcg")[["chunk_size", "chunk_overlap", "top_k", "avg_ndcg"]])
     
     # Generation results
     generation_df = pd.DataFrame(generation_results)
-    generation_df.to_csv("rag_generation_eval.csv", index=False)
+    generation_df.to_csv("evaluation/results_csv/rag_generation_eval.csv", index=False)
     print("\n✅ Generation results saved to: rag_generation_eval.csv")
     print("\nTop 3 configurations by answer correctness:")
     print(generation_df.nlargest(3, "answer_correctness_mean")[
