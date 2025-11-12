@@ -270,7 +270,7 @@ def main():
         "How many resource cards can you have?"
     ]
     
-    # Create a grid of question buttons (2 per row on mobile)
+    # Create a grid of question buttons
     cols = st.columns(2)
     for idx, question in enumerate(example_questions):
         with cols[idx % 2]:
