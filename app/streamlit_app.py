@@ -17,7 +17,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.rag_system import RAGSystem
-from src.config import PDF_PATH, DEMO_TOP_K
+from src.config import PDF_PATH, DEMO_TOP_K,PROMPT_TEMPLATE
 
 # Page configuration - MUST be first Streamlit command
 st.set_page_config(
@@ -114,8 +114,6 @@ def init_session_state():
         st.session_state.last_processed_question = ''
     if 'question_value' not in st.session_state:
         st.session_state.question_value = ''
-    if 'processing' not in st.session_state:
-        st.session_state.processing = False
 
 
 @st.cache_resource
@@ -161,25 +159,25 @@ def format_answer_with_sources(question, answer, context):
 
 def get_answer(question):
     """Get answer for a question and store in session state"""
-    try:
-        answer, context = st.session_state.rag_system.answer_question(
-            question,
-            k=DEMO_TOP_K,
-            return_context=True
-        )
-        
-        # Store the Q&A in session state
-        st.session_state.last_qa = {
-            'question': question,
-            'answer': answer,
-            'context': context
-        }
-        st.session_state.processing = False
-        
-    except Exception as e:
-        st.error(f"❌ Error: {str(e)}")
-        st.session_state.last_qa = None
-        st.session_state.processing = False
+    with st.spinner("🤔 Thinking..."):
+        try:
+            answer, context = st.session_state.rag_system.answer_question(
+                question,
+                k=DEMO_TOP_K,
+                return_context=True,
+                prompt=PROMPT_TEMPLATE
+            )
+            
+            # Store the Q&A in session state
+            st.session_state.last_qa = {
+                'question': question,
+                'answer': answer,
+                'context': context
+            }
+            
+        except Exception as e:
+            st.error(f"❌ Error: {str(e)}")
+            st.session_state.last_qa = None
 
 
 def handle_question(question):
@@ -193,11 +191,6 @@ def handle_question(question):
     # Only process if it's a new question
     if question != st.session_state.last_processed_question:
         st.session_state.last_processed_question = question
-        
-        # Clear previous Q&A immediately and set processing flag
-        st.session_state.last_qa = None
-        st.session_state.processing = True
-        
         get_answer(question)
         return True
     return False
@@ -211,18 +204,6 @@ def main():
     # Header
     st.markdown("## 🎲 Board Game Q&A Assistant (CATAN)")
     st.markdown("*Ask me anything about CATAN rules!*")
-    
-    # Rulebook link with custom styling - highly visible
-    st.markdown(
-        """
-        <div style="margin: 1rem 0; padding: 0.75rem; background-color: #f0f2f6; border-radius: 8px; border-left: 4px solid #1f77b4;">
-            📖 <a href="https://www.catan.com/sites/default/files/2025-03/CN3081%20CATAN%E2%80%93The%20Game%20Rulebook%20secure%20%281%29.pdf" target="_blank" style="color: #1f77b4; font-weight: 600; text-decoration: none;">
-                Download CATAN Rulebook (PDF)
-            </a>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
     
     # Initialize system
     if not st.session_state.initialized:
@@ -262,12 +243,6 @@ def main():
             # Clear the input by updating the value
             st.session_state.question_value = ''
             st.rerun()
-    
-    # Show spinner while processing, or show Q&A result
-    if st.session_state.processing or (st.session_state.last_qa is None and st.session_state.last_processed_question):
-        with st.spinner("🤔 Thinking..."):
-            # Small delay to ensure spinner is visible
-            time.sleep(0.1)
     
     # Display last Q&A if it exists
     if st.session_state.last_qa:
