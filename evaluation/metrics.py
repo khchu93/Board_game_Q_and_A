@@ -120,3 +120,37 @@ def reciprocal_rank(grade_scores: List[float], threshold: float = 0.5) -> float:
     
     # No relevant item found
     return 0.0
+
+def mean_retrieval_similarity(similarity_scores: List[float]) -> float:
+    """
+    Calculate the Mean Retrieval Similarity (MRS) for the top-k retrieved items.
+
+    Args:
+        similarity_scores: List of similarity scores (e.g., [0.5, 0.9, 0.2, 0]).
+
+    Returns:
+        Mean similarity of the top-k items as a float.
+        Returns 0.0 if the input list is empty.
+    """
+    if not similarity_scores:
+        return 0.0
+
+    mean_similarity = sum(similarity_scores) / len(similarity_scores)
+    return mean_similarity
+
+def hit_rate_at_k(grade_scores: List[float], threshold: float = 0.5) -> float:
+    """
+    Calculate Hit Rate@k for the top-k retrieved items.
+
+    Args:
+        grade_scores: List of graded relevance scores (e.g., [0, 0, 0.7, 0]).
+        threshold: Minimum score to consider an item relevant.
+
+    Returns:
+        1.0 if at least one relevant item is found in the top-k, otherwise 0.0
+    """
+    if not grade_scores:
+        return 0.0
+
+    # Return 1 if any score exceeds threshold, else 0
+    return 1.0 if any(score > threshold for score in grade_scores) else 0.0

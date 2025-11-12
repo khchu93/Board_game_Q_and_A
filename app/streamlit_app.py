@@ -18,7 +18,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.rag_system import RAGSystem
-from src.config import PDF_PATH, DEMO_TOP_K,PROMPT_TEMPLATE
+from src.config import PDF_PATH, DEMO_TOP_K, PROMPT_TEMPLATE
 
 # Page configuration - MUST be first Streamlit command
 st.set_page_config(

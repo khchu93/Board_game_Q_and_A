@@ -71,6 +71,8 @@ def main():
                 "avg_dcg": retrieval_result["avg_dcg"],
                 "avg_ndcg": retrieval_result["avg_ndcg"],
                 "mrr": retrieval_result["mrr"],
+                "mmrs": retrieval_result["mmrs"],
+                "mhitrate_k": retrieval_result["mhitrate_k"],
                 "num_queries": retrieval_result["num_queries"]
             })
             

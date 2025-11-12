@@ -27,7 +27,7 @@ from src.document_loader import load_documents
 from src.annotation import load_training_qa_to_docs, load_json
 from src.chunking import split_text, generate_relevant_chunks_with_coverage, get_coverage
 from src.vector_store import prepare_chunks_for_chroma, save_to_chroma, retrieve_top_k
-from evaluation.metrics import dcg, ndcg_at_k, reciprocal_rank
+from evaluation.metrics import dcg, ndcg_at_k, reciprocal_rank, mean_retrieval_similarity, hit_rate_at_k
 from src.exceptions import RAGEvaluationError, EvaluationError
 from src.config import LLM_MODEL
 from src.prompts import PROMPT_TEMPLATES
@@ -126,6 +126,8 @@ def evaluate_retrieval(
         dcg_values = []
         ndcg_values = []
         rr_values = []
+        mrs_values = []
+        hitrate_k_values = []
         query_results = []
         
         for qa in evaluation_qas:
@@ -143,20 +145,26 @@ def evaluate_retrieval(
             
             # Calculate coverage scores for retrieved chunks
             coverage_scores = []
+            similarity_scores = []
             for source, content, chunk_id, similarity_score in top_k_results:
                 coverage = get_coverage(chunk_id, qa_id, relevant_chunks)
                 coverage_scores.append(coverage)
+                similarity_scores.append(similarity_score)
                 top_k.append(content)
             
             # Calculate metrics
             query_dcg = dcg(coverage_scores)
             query_ndcg = ndcg_at_k(coverage_scores)
             query_rr = reciprocal_rank(coverage_scores)
-            
+            query_mrs = mean_retrieval_similarity(similarity_scores)
+            query_hitrate = hit_rate_at_k(coverage_scores)
+
             dcg_values.append(query_dcg)
             ndcg_values.append(query_ndcg)
             rr_values.append(query_rr)
-            
+            mrs_values.append(query_mrs)
+            hitrate_k_values.append(query_hitrate)
+
             query_results.append({
                 "qa_id": qa_id,
                 "question": question,
@@ -165,13 +173,17 @@ def evaluate_retrieval(
                 "coverage_scores": coverage_scores,
                 "dcg": query_dcg,
                 "ndcg": query_ndcg,
-                "rr": rr_values
+                "rr": rr_values,
+                "mrs": mrs_values,
+                "hitrate_k": hitrate_k_values
             })
         
         # Calculate averages
         avg_dcg = float(np.mean(dcg_values))
         avg_ndcg = float(np.mean(ndcg_values))
         mrr = float(np.mean(rr_values))
+        mmrs = float(np.mean(mrs_values))
+        mhitrate_k = float(np.mean(hitrate_k_values))
         
         logger.info("=" * 60)
         logger.info(f"Average DCG:  {avg_dcg:.4f}")
@@ -182,6 +194,8 @@ def evaluate_retrieval(
             "avg_dcg": avg_dcg,
             "avg_ndcg": avg_ndcg,
             "mrr": mrr,
+            "mmrs": mmrs,
+            "mhitrate_k": mhitrate_k,
             "num_queries": len(evaluation_qas),
             "k": k,
             "chunk_size": chunk_size,
