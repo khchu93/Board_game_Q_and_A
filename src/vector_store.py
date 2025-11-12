@@ -90,7 +90,8 @@ def save_to_chroma(chunks: List[Document], embedding_model: str = "text-embeddin
         db = Chroma.from_documents(
             documents=chunks,
             embedding=embeddings,
-            persist_directory=tmp_dir
+            persist_directory=tmp_dir,
+            collection_metadata={"hnsw:space": "ip"}
         )
 
         logger.info(f"Temporary Chroma DB created at: {tmp_dir}")

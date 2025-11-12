@@ -97,3 +97,26 @@ def ndcg_at_k(relevance_scores: List[float]) -> float:
     except Exception as e:
         logger.error(f"nDCG calculation failed: {str(e)}")
         raise EvaluationError(f"Failed to calculate nDCG: {str(e)}") from e
+    
+def reciprocal_rank(grade_scores: List[float], threshold: float = 0.5) -> float:
+    """
+    Calculate Reciprocal Rank (RR) for the top-k retrieved items.
+
+    Args:
+        grade_scores: List of graded relevance scores (e.g., [0, 0, 0.7, 0]).
+        threshold: Minimum score to consider an item relevant.
+
+    Returns:
+        Reciprocal rank value (1 / rank of first relevant item) or 0 if no relevant item is found.
+    """
+    if not grade_scores:
+        return 0.0
+
+    # Find relevant item
+    for idx, score in enumerate(grade_scores):
+        if score > threshold:
+            # Rank is 1-based
+            return 1.0 / (idx + 1)
+    
+    # No relevant item found
+    return 0.0

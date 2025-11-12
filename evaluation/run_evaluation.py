@@ -70,24 +70,25 @@ def main():
                 "top_k": k,
                 "avg_dcg": retrieval_result["avg_dcg"],
                 "avg_ndcg": retrieval_result["avg_ndcg"],
+                "mrr": retrieval_result["mrr"],
                 "num_queries": retrieval_result["num_queries"]
             })
             
-            # Evaluate generation
-            print("  Running generation evaluation...")
-            generation_result = evaluate_generation(
-                query_results=retrieval_result["query_results"],
-                llm_model=LLM_MODEL,
-                prompt=PROMPT_TEMPLATE
-            )
+            # # Evaluate generation
+            # print("  Running generation evaluation...")
+            # generation_result = evaluate_generation(
+            #     query_results=retrieval_result["query_results"],
+            #     llm_model=LLM_MODEL,
+            #     prompt=PROMPT_TEMPLATE
+            # )
             
-            # Store generation results
-            generation_results.append({
-                "chunk_size": chunk_size,
-                "chunk_overlap": chunk_overlap,
-                "top_k": k,
-                **generation_result
-            })
+            # # Store generation results
+            # generation_results.append({
+            #     "chunk_size": chunk_size,
+            #     "chunk_overlap": chunk_overlap,
+            #     "top_k": k,
+            #     **generation_result
+            # })
             
             # Cleanup temporary directory
             if retrieval_result.get("tmp_dir"):
@@ -114,14 +115,14 @@ def main():
     print("\nTop 3 configurations by nDCG:")
     print(retrieval_df.nlargest(3, "avg_ndcg")[["chunk_size", "chunk_overlap", "top_k", "avg_ndcg"]])
     
-    # Generation results
-    generation_df = pd.DataFrame(generation_results)
-    generation_df.to_csv("evaluation/results_csv/rag_generation_eval.csv", index=False)
-    print("\n✅ Generation results saved to: rag_generation_eval.csv")
-    print("\nTop 3 configurations by answer correctness:")
-    print(generation_df.nlargest(3, "answer_correctness_mean")[
-        ["chunk_size", "chunk_overlap", "top_k", "answer_correctness_mean"]
-    ])
+    # # Generation results
+    # generation_df = pd.DataFrame(generation_results)
+    # generation_df.to_csv("evaluation/results_csv/rag_generation_eval.csv", index=False)
+    # print("\n✅ Generation results saved to: rag_generation_eval.csv")
+    # print("\nTop 3 configurations by answer correctness:")
+    # print(generation_df.nlargest(3, "answer_correctness_mean")[
+    #     ["chunk_size", "chunk_overlap", "top_k", "answer_correctness_mean"]
+    # ])
     
     print("\n" + "=" * 70)
     print("Evaluation completed!")
