@@ -9,15 +9,9 @@ Usage:
 import streamlit as st
 from pathlib import Path
 import time
-import sys
-from pathlib import Path
-
-# Add project root to Python path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
 
 from src.rag_system import RAGSystem
-from src.config import PDF_PATH, DEMO_TOP_K,PROMPT_TEMPLATE
+from src.config import PDF_PATH, DEMO_TOP_K
 
 # Page configuration - MUST be first Streamlit command
 st.set_page_config(
@@ -165,8 +159,7 @@ def get_answer(question):
         answer, context = st.session_state.rag_system.answer_question(
             question,
             k=DEMO_TOP_K,
-            return_context=True,
-            prompt=PROMPT_TEMPLATE
+            return_context=True
         )
         
         # Store the Q&A in session state
@@ -212,12 +205,19 @@ def main():
     # Header
     st.markdown("## 🎲 Board Game Q&A Assistant (CATAN)")
     st.markdown("*Ask me anything about CATAN rules!*")
-    # Link button
-    st.link_button(
-    "📚 Open CATAN Rulebook (PDF)",
-    "https://www.catan.com/sites/default/files/2025-03/CN3081%20CATAN%E2%80%93The%20Game%20Rulebook%20secure%20%281%29.pdf"
-)
-
+    
+    # Rulebook link with custom styling - highly visible
+    st.markdown(
+        """
+        <div style="margin: 1rem 0; padding: 0.75rem; background-color: #f0f2f6; border-radius: 8px; border-left: 4px solid #1f77b4;">
+            📖 <a href="https://www.catan.com/sites/default/files/2025-03/CN3081%20CATAN%E2%80%93The%20Game%20Rulebook%20secure%20%281%29.pdf" target="_blank" style="color: #1f77b4; font-weight: 600; text-decoration: none;">
+                Download CATAN Rulebook (PDF)
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
     # Initialize system
     if not st.session_state.initialized:
         rag, error = load_rag_system()
@@ -282,7 +282,7 @@ def main():
         "How many resource cards can you have?"
     ]
     
-    # Create a grid of question buttons
+    # Create a grid of question buttons (2 per row on mobile)
     cols = st.columns(2)
     for idx, question in enumerate(example_questions):
         with cols[idx % 2]:
