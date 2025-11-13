@@ -1,42 +1,38 @@
-# 🎲 Board Game Q&A Chatbot (CATAN) - RAG System with GPT-3.5 Turbo
+## 🎲 Board Game Q&A Chatbot (CATAN) - RAG System with GPT-3.5 Turbo
 
 > **A Retrieval-Augmented Generation (RAG) system that answers questions about the board game "CATAN" manuals with 85%+ faithfulness and comprehensive evaluation metrics.**
 
-## ⚡ **TL;DR**
+### ⚡ **TL;DR**
 
-**What it does:** AI chatbot that answers questions about the board game "CATAN" rules  
-**Tech Stack:** OpenAI GPT-3.5 Turbo + LangChain + ChromaDB + Streamlit  
-**Key Results:** XX.X% faithfulness score | XX.X% retrieval accuracy (nDCG)  TBD
-**Try it now:** [**Live Demo →**](https://broadgame-question-and-answer.streamlit.app/) (works on mobile!)  
-**Why it matters:** Full RAG pipeline with comprehensive evaluation (retrieval + generation metrics)
+**Description:** AI chatbot that answers questions about the rules of the board game "CATAN"  <br>
+**Tech:** OpenAI GPT-3.5 Turbo + LangChain + ChromaDB + Streamlit  <br>
+**Key Results:** XX.X% faithfulness score | XX.X% retrieval accuracy (nDCG)  TBD<br>
+**Online Demo:** [https://broadgame-question-and-answer.streamlit.app/](https://broadgame-question-and-answer.streamlit.app/)  <br>
+**Content:** Full RAG pipeline with retrieval and generation evaluation<br>
 
 👇 *Scroll for detailed breakdown, evaluation methodology, and code walkthrough*
 
 ---
 
-## 🚀 **[Try the Live Demo →](https://broadgame-question-and-answer.streamlit.app/)**
+### 🚀 **Online Demo → [Link](https://broadgame-question-and-answer.streamlit.app/)** (support computer and mobile usage)
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/khchu93/NoteImage/main/board_game_demo.gif" 
-       alt="Board Game Q&A Demo" width="800"/>
-  <p><em>Mobile-responsive Streamlit interface for instant board game rules lookup</em></p>
-</div>
-
-### ✨ **Key Highlights**
-
-```
-📱 Live Demo          → Deployed Streamlit app with mobile-responsive UI
-🎯 85%+ Accuracy     → Faithfulness score of 0.857 on RAGAS metrics
-📊 Full Evaluation   → Both retrieval (nDCG) and generation (RAGAS) metrics
-🔍 Smart Retrieval   → Coverage-based relevance scoring with Aho-Corasick algorithm
-⚡ Fast & Efficient  → Optimized chunking and embedding strategies
-```
+![til](https://github.com/khchu93/NoteImage/blob/main/board_game_demo.gif)
 
 ---
 
-## 📊 **Performance Results**
+### 📊 **Performance Results**
 
-### **Generation Quality (RAGAS Metrics)**
+#### **Retrieval Evaluation**
+| Metric | Description | Scale |
+|--------|----------------|-----|
+| **Average NDCG(Normalized Discounted Cumulative Gain)** | Measures how well the retrieved chunks are ranked compared to an ideal | 0 - 1 scale
+| **MRR(Mean Reciprocal Rank)** | Captures how early the first relevant chunk appears in the ranking, with higher values meaning earlier retrieval | 0 - 1 scale |
+| **Overall MRS(Mean Retrieval Similarity)** | Indicates the proportion of queries where at least one relevant chunk appears within the top-k results | 0 - 1 scale |
+| **Mean HitRate@K** | Represents the average similarity score of the top-k retrieved chunks across all queries | 0 - 1 scale |
+
+> 📈 **All evaluations run on CATAN board game manual with 100+ test questions**
+> 
+#### **Generation Evaluation (RAGAS)**
 
 | Metric | Score | What It Measures |
 |--------|-------|------------------|
@@ -44,16 +40,6 @@
 | **Answer Relevancy** | **0.823** | How well the answer addresses the question |
 | **Context Precision** | **0.689** | Relevance of retrieved chunks |
 | **Context Recall** | **0.742** | Coverage of ground truth in retrieved context |
-
-### **Retrieval Quality**
-
-| Metric | Score | Interpretation |
-|--------|-------|----------------|
-| **Average nDCG** | **0.526** | Normalized ranking quality (0-1 scale) |
-| **Average DCG** | **0.470** | Position-aware relevance scoring |
-
-> 📈 **All evaluations run on CATAN board game manual with 100+ test questions**
-
 ---
 
 ## 🎯 **What Makes This Project Stand Out**
