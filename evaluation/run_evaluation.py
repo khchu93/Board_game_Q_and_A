@@ -27,7 +27,8 @@ from src.config import (
     TOP_K_VALUES,
     EMBEDDING_MODEL,
     LLM_MODEL,
-    PROMPT_TEMPLATE
+    PROMPT_TEMPLATE,
+    SIMILARITY_SEARCH
 )
 
 def safe_close_chroma(db):
@@ -121,6 +122,7 @@ def main():
                 chunk_overlap=chunk_overlap,
                 k=k,
                 embedding_model=EMBEDDING_MODEL,
+                similarity_search=SIMILARITY_SEARCH,
                 persist_dir=str(tmp_dir)
             )
             

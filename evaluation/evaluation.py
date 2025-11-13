@@ -65,6 +65,7 @@ def evaluate_retrieval(
     chunk_overlap: int = 30,
     k: int = 3,
     embedding_model: str = "text-embedding-ada-002",
+    similarity_search: str = "cosine",
     persist_dir: str = None
 ) -> Dict[str, Any]:
     """
@@ -113,7 +114,7 @@ def evaluate_retrieval(
         
         # Step 5: Prepare and store in vector DB
         chunks_for_chroma = prepare_chunks_for_chroma(chunks)
-        db, tmp_dir = save_to_chroma(chunks_for_chroma, embedding_model, persist_dir)
+        db, tmp_dir = save_to_chroma(chunks_for_chroma, embedding_model, persist_dir, similarity_search)
         
         # Step 6: Load evaluation queries
         qa_data = load_json(training_qa_path)

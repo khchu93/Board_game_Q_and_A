@@ -36,6 +36,7 @@ class RAGSystem:
         pdf_path: str,
         chunk_size: int = 300,
         chunk_overlap: int = 30,
+        similarity_search: str = "cosine",
         embedding_model: str = "text-embedding-ada-002",
         llm_model: str = LLM_MODEL,
         llm_temperature: float = LLM_TEMPERATURE
@@ -54,6 +55,7 @@ class RAGSystem:
         self.pdf_path = pdf_path
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
+        self.similarity_search = similarity_search
         self.embedding_model = embedding_model
         self.llm_model = llm_model
         self.llm_temperature = llm_temperature
@@ -76,7 +78,7 @@ class RAGSystem:
         
         # Prepare and store in vector DB
         chunks_for_chroma = prepare_chunks_for_chroma(chunks)
-        self.db, self.tmp_dir = save_to_chroma(chunks_for_chroma, self.embedding_model)
+        self.db, self.tmp_dir = save_to_chroma(chunks_for_chroma, self.embedding_model, self.similarity_search)
         
         # Initialize LLM
         self.llm = ChatOpenAI(model=self.llm_model, temperature=self.llm_temperature)

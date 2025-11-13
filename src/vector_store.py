@@ -63,7 +63,9 @@ def prepare_chunks_for_chroma(chunks: List[Document]) -> List[Document]:
 def save_to_chroma(
     chunks: List[Document], 
     embedding_model: str = "text-embedding-ada-002", 
-    persist_dir: str = None) -> Tuple[Chroma, str]:
+    persist_dir: str = None,
+    similarity_search: str = "cosine"
+    ) -> Tuple[Chroma, str]:
     """
     Create and persist Chroma vector store.
     
@@ -96,7 +98,7 @@ def save_to_chroma(
             documents=chunks,
             embedding=embeddings,
             persist_directory=persist_dir,
-            collection_metadata={"hnsw:space": "ip"}
+            collection_metadata={"hnsw:space": similarity_search}
         )
 
         logger.info(f"Temporary Chroma DB created at: {persist_dir}")

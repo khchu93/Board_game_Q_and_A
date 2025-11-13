@@ -29,6 +29,7 @@ TRAINING_QA_PATH = DATA_DIR / "CATAN_train_small.json"
 EMBEDDING_MODEL = "text-embedding-ada-002"
 LLM_MODEL = "gpt-3.5-turbo"
 LLM_TEMPERATURE = 0
+SIMILARITY_SEARCH = "cosine"
 
 # Chunking parameters (demo.py and streamlit_app.py)
 DEMO_CHUNK_SIZE = 300
