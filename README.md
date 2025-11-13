@@ -31,8 +31,8 @@
 | **Mean HitRate@K** | Represents the average similarity score of the top-k retrieved chunks across all queries | 0 - 1 scale |
 
 > 📈 **With a dataset of 10 questions, here are the result charts of retrieval evaluation:**
-<img src="https://github.com/khchu93/NoteImage/blob/main/board_game_eval_heatmap.png" width="800" />
-<img src="https://github.com/khchu93/NoteImage/blob/main/board_game_eval_all.PNG" width="800" />
+<img src="https://github.com/khchu93/NoteImage/blob/main/board_game_eval_heatmap.png" width="900" />
+<img src="https://github.com/khchu93/NoteImage/blob/main/board_game_eval_all.PNG" width="900" />
 
 
 
