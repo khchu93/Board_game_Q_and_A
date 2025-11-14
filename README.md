@@ -2,7 +2,7 @@
 
 > **A Retrieval-Augmented Generation (RAG) system that answers questions about the board game "CATAN" manuals with 85%+ faithfulness and comprehensive evaluation metrics.**
 
-### ⚡ **TL;DR**
+### **TL;DR**
 
 **Description:** AI chatbot that answers questions about the rules of the board game "CATAN"  <br>
 **Tech:** OpenAI GPT-3.5 Turbo + LangChain + ChromaDB + Streamlit  <br>
@@ -12,65 +12,73 @@
 
 ---
 
-### 🚀 **Online Demo → [Link](https://broadgame-question-and-answer.streamlit.app/)** (support computer and mobile usage)
+### **Online Demo → [Link](https://broadgame-question-and-answer.streamlit.app/)** (support computer and mobile usage)
 
 ![til](https://github.com/khchu93/NoteImage/blob/main/board_game_demo.gif)
 
 ---
 
-### 📊 **Performance Results**
+### **Performance Results**
 
 #### **Retrieval Evaluation**
-> 📈 **With a dataset of 10 questions, here are the result charts of retrieval evaluation:**
+> 📈 **Using a dataset of 10 questions, we present the following chart summarizing the retrieval evaluation results:**
 <img src="https://github.com/khchu93/NoteImage/blob/main/board_game_eval_heatmap.png" width="900" />
 <img src="https://github.com/khchu93/NoteImage/blob/main/board_game_eval_all.PNG" width="900" />
 
 | Metric | Description | Scale |
-|--------|----------------|-----|
-| **Average NDCG(Normalized Discounted Cumulative Gain)** | Measures how well the retrieved chunks are ranked compared to an ideal. | 0 - 1 scale
-| **MRR(Mean Reciprocal Rank)** | Captures how early the first relevant chunk appears in the ranking, with higher values meaning earlier retrieval. | 0 - 1 scale |
-| **Overall MRS(Mean Retrieval Similarity)** | Indicates the proportion of queries where at least one relevant chunk appears within the top-k results. | 0 - 1 scale |
-| **Mean HitRate@K** | Represents the average similarity score of the top-k retrieved chunks across all queries. | 0 - 1 scale |
+|:--------|:----------------|:-----|
+| **Average NDCG(Normalized Discounted Cumulative Gain)** | Measures how well the retrieved chunks are ranked compared to an ideal. | 0 - 1 |
+| **MRR(Mean Reciprocal Rank)** | Captures how early the first relevant chunk appears in the ranking, with higher values meaning earlier retrieval. | 0 - 1 |
+| **Overall MRS(Mean Retrieval Similarity)** | Indicates the proportion of queries where at least one relevant chunk appears within the top-k results. | 0 - 1 |
+| **Mean HitRate@K** | Represents the average similarity score of the top-k retrieved chunks across all queries. | 0 - 1 |
 
 Summary metrics are calculated as follows:
 | Summary Metric | Equation |
-|--------|----------------|
+|:--------|:----------------|
 | **Average** | 0.2 x Average NDCG + 0.2 x MRR + 0.2 x Overall MRS + 0.2 x Mean HitRate@K |
 | **Ranking Prioritize** | 0.4 x Average NDCG + 0.4 x MRR + 0.1 x Overall MRS + 0.1 x Mean HitRate@K |
 
-Best combination with a dataset of 10 questions
+Best hyperparameter combination with a dataset of 10 questions
 | Summary Metric | Chunk Size | Chunk Overlap | Top k | Scores |
-|--------|----------------|-----|-----|----|
+|:--------|:----------------|:-----|:-----|:----|
 | **Average** | 125 | 120 | 5 | 0.7874 |
-| **Ranking Prioritize** | 125 | 120 | 5 | 0.7647 |
+| **Prioritize Ranking** | 125 | 120 | 5 | 0.7647 |
  
 #### **Generation Evaluation (RAGAS)**
 
-| Metric | Description | Scale |
-|--------|-------|------------------|
-| **Faithfulness** | Assesses whether the answer is consistent with the retrieved context, without hallucination. |  |
-| **Answer Relevancy** | Captures how relevant the generated answer is to the user’s question. |  |
-| **Answer Correctness** | Measures whether the model’s answer is factually correct based on the reference. |  |
-| **Context Precision** | Fraction of retrieved chunks that are actually relevant to the question. |  |
-| **Context Recall** | Fraction of all relevant chunks that were successfully retrieved. |  |
+> 📈 **Using a dataset of 40 questions and the best hyperparameter combination identified during retrieval evaluation, we obtained the following results for the generation evaluation:**
 
+| RAGAS Metric | Description | Scale | Score |
+|:--------|:-------|:------------------|:----|
+| **Faithfulness** | Assesses whether the answer is consistent with the retrieved context, without hallucination. | 0 - 1 |  |
+| **Answer Relevancy** | Captures how relevant the generated answer is to the user’s question. | 0 - 1 |  |
+| **Answer Correctness** | Measures whether the model’s answer is factually correct based on the reference. | 0 - 1  |  |
+| **Context Precision** | Fraction of retrieved chunks that are actually relevant to the question. | 0 - 1  |  |
+| **Context Recall** | Fraction of all relevant chunks that were successfully retrieved. | 0 - 1  |  |
+
+| Metric | Score |
+|:--------|:----------------|
+| **Average NDCG(Normalized Discounted Cumulative Gain)** | |
+| **MRR(Mean Reciprocal Rank)** | |
+| **Overall MRS(Mean Retrieval Similarity)** | |
+| **Mean HitRate@K** | |
 ---
 
-## 🛠️ **Technology Stack**
+### **Technology Stack**
 
 <table>
 <tr>
 <td width="50%">
 
-**🤖 LLM & Embeddings**
-- OpenAI GPT-3.5 turbo (generation)
+**LLM & Embeddings**
+- GPT-3.5 turbo (generation)
 - text-embedding-ada-002 (embeddings)
 - LangChain framework
 
 </td>
 <td width="50%">
 
-**💾 Vector Database**
+**Vector Database**
 - ChromaDB (Vector Store)
 - Cosine similarity search
 
@@ -79,25 +87,23 @@ Best combination with a dataset of 10 questions
 <tr>
 <td>
 
-**📊 Evaluation**
+**Evaluation**
 - RAGAS (Generation Metrics)
 - DCG/nDCG/MRR/Mean MRS/Mean HitRate@K (Retrieval Metrics)
 
 </td>
 <td>
 
-**🎨 Interface**
+**Interface**
 - Streamlit (web app & Mobile)
 
 </td>
 </tr>
 </table>
 
-**Other Libraries**: PyPDF2, sentence-transformers, python-dotenv, pandas
-
 ---
 
-## 📁 **Project Structure**
+### **Project Structure**
 
 ```
 rag-board-game-qa/
@@ -128,12 +134,12 @@ rag-board-game-qa/
 
 ---
 
-## 🚀 **Quick Start**
+### **Quick Start**
 
-### **1. Try the Live Demo**
-Visit **[https://rag-board-game.streamlit.app/](https://rag-board-game.streamlit.app/)** - no setup required!
+#### **1. Try the Online Demo**
+Visit **[Link](https://rag-board-game.streamlit.app/)**
 
-### **2. Run Locally**
+#### **2. Run Locally**
 
 ```bash
 # Clone the repository
@@ -159,7 +165,7 @@ python app/demo.py
 
 ---
 
-## 🔍 **How It Works**
+### **How It Works**
 
 ```mermaid
 graph LR
@@ -175,7 +181,7 @@ graph LR
     J --> C
 ```
 
-### **Pipeline Overview**
+#### **Pipeline Overview**
 
 1. **Document Processing**: PDF manuals chunked into 300-token segments with 30-token overlap
 2. **Embedding**: Chunks embedded using OpenAI's `text-embedding-3-small`
@@ -186,7 +192,7 @@ graph LR
 
 ---
 
-## 🧪 **Run Your Own Evaluation**
+### **Run Your Own Evaluation**
 
 ```bash
 # Run full evaluation pipeline
@@ -198,50 +204,62 @@ python evaluation/run_evaluation.py
 ```
 
 This will:
-- Test different chunking strategies (100-500 tokens)
-- Evaluate retrieval quality (DCG/nDCG)
+- Test different chunking strategies (chunk_size, chunk_overlap, k)
+- Evaluate retrieval quality (DCG/nDCG/MRR/Overall MRS/Mean HitRate@K)
 - Measure generation quality (RAGAS)
 - Export results for analysis
 
 ---
 
-## 🔧 **Configuration**
+### **Configuration**
 
-Key parameters in `src/config.py`:
+Hyperparameters in `src/config.py`:
 
 ```python
-# Model Configuration
-EMBEDDING_MODEL = "text-embedding-3-small"
-LLM_MODEL = "gpt-4o-mini"
+# Paths
+DATA_DIR = Path("data/BoardGamesRuleBook")
+PDF_PATH = DATA_DIR / "CATAN.pdf"
+# TRAINING_QA_PATH = DATA_DIR / "CATAN_eval_small.json" # retrieval eval set
+TRAINING_QA_PATH = DATA_DIR / "CATAN_eval_long.json"    # generation eval set
 
-# Chunking Strategy
-CHUNK_SIZE = 300          # Optimal for balance
-CHUNK_OVERLAP = 30        # 10% overlap
+# Model settings
+EMBEDDING_MODEL = "text-embedding-ada-002"
+LLM_MODEL = "gpt-3.5-turbo"
+LLM_TEMPERATURE = 0
+SIMILARITY_SEARCH = "cosine"
 
-# Retrieval Parameters
-TOP_K = 5                 # Number of chunks to retrieve
+# Chunking parameters (demo.py and streamlit_app.py)
+DEMO_CHUNK_SIZE = 125
+DEMO_CHUNK_OVERLAP = 120
+DEMO_TOP_K = 5
+
+# Evaluation parameters (run_evaluation.py)
+CHUNK_SIZES = [125]
+CHUNK_OVERLAPS = [120]
+TOP_K_VALUES = [3,5,7,10]
+
+# Prompt template
+PROMPT_TEMPLATE = "default"
 ```
-
-Customize these based on your use case!
 
 ---
 
-## 📚 **What I Learned**
+### **What I Learned**
 
-### **Technical Skills**
+#### **Technical Skills**
 - Designing and implementing production RAG systems
 - Comprehensive evaluation (beyond just "does it work?")
 - Balancing precision vs. recall in retrieval
 - Optimizing chunk size and overlap strategies
 - Prompt engineering for consistent LLM outputs
 
-### **Software Engineering**
+#### **Software Engineering**
 - Modular architecture for maintainability
 - Proper error handling and logging
 - Configuration management best practices
 - Git workflow and documentation
 
-### **Evaluation & Metrics**
+#### **Evaluation & Metrics**
 - Coverage-based relevance scoring
 - Position-aware ranking (DCG/nDCG)
 - Multi-dimensional generation quality (RAGAS)
@@ -249,31 +267,15 @@ Customize these based on your use case!
 
 ---
 
-## 🚀 **Future Enhancements**
+### **To Explore**
+- [ ] Experiment with different prompt templates to improve answer quality
+- [ ] Test alternative text splitters (currently using character-level; consider token-, subword-, or word-level splitting)
 
-- [ ] Support for multiple board games (multi-document retrieval)
-- [ ] Hybrid search (dense + sparse embeddings)
-- [ ] Image support (diagrams from manuals)
-- [ ] Multi-language support
+### **Future Enhancements**
+
+- [ ] Support board game rulebook upload
+- [ ] Support capturing rulebooks via cellphone camera (image input)
+- [ ] Support for multi-language rulebooks
 - [ ] Query expansion and reformulation
-- [ ] Fine-tuned embeddings for domain adaptation
-- [ ] User feedback loop for continuous improvement
 
 ---
-
-## 🙏 **Acknowledgments**
-
-- **OpenAI** for GPT and embedding models
-- **LangChain** for RAG framework
-- **RAGAS** for evaluation metrics
-- **Streamlit** for rapid prototyping
-
----
-
-## 📧 **Contact**
-
-Have questions or want to collaborate? Reach out!
-
-- **GitHub**: [@khchu93](https://github.com/khchu93)
-- **Project**: [github.com/khchu93/Do-my-history-exam](https://github.com/khchu93/Do-my-history-exam)
-- **Live Demo**: [rag-board-game.streamlit.app](https://rag-board-game.streamlit.app/)
