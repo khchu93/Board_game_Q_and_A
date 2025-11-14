@@ -187,8 +187,8 @@ graph LR
 2. **Embedding**: Chunks embedded using OpenAI's `text-embedding-3-small`
 3. **Storage**: Vectors stored in ChromaDB with metadata
 4. **Retrieval**: User query embedded → cosine similarity search → top-5 chunks
-5. **Generation**: GPT-4o-mini synthesizes answer from retrieved context
-6. **Evaluation**: RAGAS metrics validate quality
+5. **Generation**: GPT-3.5-Turbo synthesizes answer from retrieved context
+6. **Evaluation**: Traditional retrieval eval metrics + RAGAS generation eval metrics validate quality
 
 ---
 
