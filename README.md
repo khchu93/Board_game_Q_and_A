@@ -41,17 +41,17 @@ These achieved the highest average retrieval score across [nDCG](#Retrieval-Metr
 
 | Summary Metric | Chunk | Overlap | Top-K | Score |
 |----------------|--------|----------|--------|--------|
-| [Average](#Retrieval Metrics) | 125 | 120 | 5 | **0.7874** |
-| [Prioritize Ranking](#Retrieval Metrics) | 125 | 120 | 5 | **0.7647** |
+| [Average](#Retrieval-Metrics) | 125 | 120 | 5 | **0.7874** |
+| [Prioritize Ranking](#Retrieval-Metrics) | 125 | 120 | 5 | **0.7647** |
 
 #### **Generation Evaluation (RAGAS, 40 Qs)**
 | Metric | Score |
 |--------|--------|
-| Faithfulness | XX.X% |
-| Answer Relevancy | XX.X% |
-| Answer Correctness | XX.X% |
-| Context Precision | XX.X% |
-| Context Recall | XX.X% |
+| [Faithfulness](#Generation-Metrics) | XX.X% |
+| [Answer Relevancy](#Generation-Metrics) | XX.X% |
+| [Answer Correctness](#Generation-Metrics) | XX.X% |
+| [Context Precision](#Generation-Metrics) | XX.X% |
+| [Context Recall](#Generation-Metrics) | XX.X% |
 
 
 
@@ -73,6 +73,17 @@ Summary metrics are calculated as follows:
 
 [Back](#Key-Results)
 #### Generation Metrics
+
+| RAGAS Metric | Description | Scale | Score |
+|:--------|:-------|:------------------|:----|
+| **Faithfulness** | Assesses whether the answer is consistent with the retrieved context, without hallucination. | 0 - 1 |  |
+| **Answer Relevancy** | Captures how relevant the generated answer is to the user’s question. | 0 - 1 |  |
+| **Answer Correctness** | Measures whether the model’s answer is factually correct based on the reference. | 0 - 1  |  |
+| **Context Precision** | Fraction of retrieved chunks that are actually relevant to the question. | 0 - 1  |  |
+| **Context Recall** | Fraction of all relevant chunks that were successfully retrieved. | 0 - 1  |  |
+
+[Back](#Key-Results)
+
 ---
 
 ### **Performance Results**
