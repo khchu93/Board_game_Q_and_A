@@ -1,21 +1,59 @@
-## 🎲 Board Game Q&A Chatbot (CATAN) - RAG System with GPT-3.5 Turbo
+## 🎲 Board Game Rulebook Q&A Chatbot (RAG) - CATAN Game Master
 
-> **A Retrieval-Augmented Generation (RAG) system that answers questions about the board game "CATAN" manuals with 85%+ faithfulness and comprehensive evaluation metrics.**
+> **Ask any question about CATAN. Get instant, rule-accurate answers grounded in the official manual.**
 
-### **TL;DR**
+Have a question about how to play **CATAN**?<br>
+Just type your question into the input box and press **Enter** (or click **Search**).<br>
+You'll instantly see:
+- **Your question and the generated answer**, shown below the input
+- An expandable **“View Source Passages”** section, where you can read the top-K rulebook snippets the system used to generate the answer
 
-**Description:** AI chatbot that answers questions about the rules of the board game "CATAN"  <br>
-**Tech:** OpenAI GPT-3.5 Turbo + LangChain + ChromaDB + Streamlit  <br>
-**Results:** XX.X% faithfulness | XX.X% answer relevancy | XX.X% answer correctness <br>
-**Online Demo:** [https://broadgame-question-and-answer.streamlit.app/](https://broadgame-question-and-answer.streamlit.app/)  <br>
-**Content:** Full RAG pipeline with retrieval and generation evaluation<br>
+Not sure what to ask? <br>
+Explore the **"Popular Questions"** section and click any question to auto-fill it and generate an answer.
 
 ---
 
-### **Online Demo → [Link](https://broadgame-question-and-answer.streamlit.app/)** (support computer and mobile usage)
+### **Live Demo** → **[Link](https://broadgame-question-and-answer.streamlit.app/)** (Mobile & desktop friendly)
 
 ![til](https://github.com/khchu93/NoteImage/blob/main/board_game_demo.gif)
 
+---
+
+### What This Project Demonstrates
+- **End-to-end RAG system** with chunking, embedding, vector search, and LLM answering  
+- **High-fidelity answers** grounded strictly in top-k retrieved rule text, with prompt constraints to minimize hallucination.
+- **Full retrieval evaluation:** NDCG, MRR, Mean Retrieval Similarity(MRS), HitRate@K  
+- **Full generation evaluation:** RAGAS (Faithfulness, Relevancy, Correctness)  
+- **Hyperparameter tuning** across chunk size, overlap, k, and similarity metrics  
+- **Clean, mobile-friendly Streamlit UI**  
+- **Modular, production-style architecture** (document loader, retriever, evaluator, UI)
+
+---
+
+### Key Results (At a Glance)
+
+#### **Best Retrieval Settings**
+- **[Chunk Size](#Chunk_Size):** 125  
+- **Chunk Overlap:** 120  
+- **Top-K:** 5  
+- **Similarity:** Cosine  
+These achieved the highest average retrieval score across nDCG, MRR, MRS, and HitRate@K.
+
+| Summary Metric | Chunk | Overlap | Top-K | Score |
+|----------------|--------|----------|--------|--------|
+| Average | 125 | 120 | 5 | **0.7874** |
+| Prioritize Ranking | 125 | 120 | 5 | **0.7647** |
+
+#### **Generation Evaluation (RAGAS, 40 Qs)**
+| Metric | Score |
+|--------|--------|
+| Faithfulness | XX.X% |
+| Answer Relevancy | XX.X% |
+| Answer Correctness | XX.X% |
+| Context Precision | XX.X% |
+| Context Recall | XX.X% |
+
+##### Chunk_Size
 ---
 
 ### **Performance Results**
