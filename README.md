@@ -56,8 +56,77 @@ These achieved the highest average retrieval score across [nDCG](#Retrieval-Metr
 | [Context Precision](#Summary-Metrics) | **95.00%** |
 | [Context Recall](#Summary-Metrics) | **95.00%** |
 
+---
 
+### Why I Built This
+When learning a new board game, I constantly interrupt gameplay to flip through rulebooks and verify details—breaking the flow and killing the fun.
 
+I built this chatbot to act as a personal game master:
+- instantly answers rule questions
+- stays grounded in the official rulebook
+- removes all manual page-flipping during gameplay
+- allows players to focus on fun, not rules
+
+---
+
+### **How It Works**
+
+```mermaid
+graph LR
+    A[Q&A Dataset] --> B[Embeddings]
+    B --> C[Vector Search]
+    C --> D[Top-K Retrieval]
+    E[Prompt Template] --> F[LLM Generation]
+    L[Question] --> F[LLM Generation]
+    D --> F[LLM Generation]
+    F --> G[Answer + Sources]
+    
+    H[PDF Manual] --> I[Chunking]
+    I --> J[Embeddings]
+    J --> K[ChromaDB]
+    K --> C
+```
+
+---
+
+### **Technology Stack**
+
+<table>
+<tr>
+<td width="50%">
+
+**LLM & Embeddings**
+- GPT-3.5 turbo (generation, chatbot, ragas evaluation)
+- text-embedding-ada-002 (embeddings)
+- LangChain framework
+
+</td>
+<td width="50%">
+
+**Vector Database**
+- ChromaDB (Vector Store)
+- Cosine similarity search
+
+</td>
+</tr>
+<tr>
+<td>
+
+**Evaluation**
+- RAGAS (Generation Metrics)
+- DCG/nDCG/MRR/Mean MRS/Mean HitRate@K (Retrieval Metrics)
+
+</td>
+<td>
+
+**Interface**
+- Streamlit (web app & Mobile)
+
+</td>
+</tr>
+</table>
+
+---
 ### Metric Detail
 #### Retrieval Metrics
 
@@ -135,44 +204,7 @@ Best hyperparameter combination with a dataset of 10 questions
 | **Mean HitRate@K** | |
 ---
 
-### **Technology Stack**
 
-<table>
-<tr>
-<td width="50%">
-
-**LLM & Embeddings**
-- GPT-3.5 turbo (generation, chatbot, ragas evaluation)
-- text-embedding-ada-002 (embeddings)
-- LangChain framework
-
-</td>
-<td width="50%">
-
-**Vector Database**
-- ChromaDB (Vector Store)
-- Cosine similarity search
-
-</td>
-</tr>
-<tr>
-<td>
-
-**Evaluation**
-- RAGAS (Generation Metrics)
-- DCG/nDCG/MRR/Mean MRS/Mean HitRate@K (Retrieval Metrics)
-
-</td>
-<td>
-
-**Interface**
-- Streamlit (web app & Mobile)
-
-</td>
-</tr>
-</table>
-
----
 
 ### **Project Structure**
 
@@ -236,23 +268,7 @@ python app/demo.py
 
 ---
 
-### **How It Works**
 
-```mermaid
-graph LR
-    A[Q&A Dataset] --> B[Embedding Model]
-    B --> C[Vector Search]
-    C --> D[Top-K Retrieval]
-    E[Prompt Template] --> F[LLM Generation]
-    L[Question] --> F[LLM Generation]
-    D --> F[LLM Generation]
-    F --> G[Answer + Sources]
-    
-    H[PDF Manual] --> I[Chunking]
-    I --> J[Embeddings]
-    J --> K[ChromaDB]
-    K --> C
-```
 
 #### **Pipeline Overview**
 
