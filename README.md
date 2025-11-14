@@ -10,8 +10,6 @@
 **Online Demo:** [https://broadgame-question-and-answer.streamlit.app/](https://broadgame-question-and-answer.streamlit.app/)  <br>
 **Content:** Full RAG pipeline with retrieval and generation evaluation<br>
 
-👇 *Scroll for detailed breakdown, evaluation methodology, and code walkthrough*
-
 ---
 
 ### 🚀 **Online Demo → [Link](https://broadgame-question-and-answer.streamlit.app/)** (support computer and mobile usage)
@@ -23,52 +21,38 @@
 ### 📊 **Performance Results**
 
 #### **Retrieval Evaluation**
-| Metric | Description | Scale |
-|--------|----------------|-----|
-| **Average NDCG(Normalized Discounted Cumulative Gain)** | Measures how well the retrieved chunks are ranked compared to an ideal | 0 - 1 scale
-| **MRR(Mean Reciprocal Rank)** | Captures how early the first relevant chunk appears in the ranking, with higher values meaning earlier retrieval | 0 - 1 scale |
-| **Overall MRS(Mean Retrieval Similarity)** | Indicates the proportion of queries where at least one relevant chunk appears within the top-k results | 0 - 1 scale |
-| **Mean HitRate@K** | Represents the average similarity score of the top-k retrieved chunks across all queries | 0 - 1 scale |
-
 > 📈 **With a dataset of 10 questions, here are the result charts of retrieval evaluation:**
 <img src="https://github.com/khchu93/NoteImage/blob/main/board_game_eval_heatmap.png" width="900" />
 <img src="https://github.com/khchu93/NoteImage/blob/main/board_game_eval_all.PNG" width="900" />
 
+| Metric | Description | Scale |
+|--------|----------------|-----|
+| **Average NDCG(Normalized Discounted Cumulative Gain)** | Measures how well the retrieved chunks are ranked compared to an ideal. | 0 - 1 scale
+| **MRR(Mean Reciprocal Rank)** | Captures how early the first relevant chunk appears in the ranking, with higher values meaning earlier retrieval. | 0 - 1 scale |
+| **Overall MRS(Mean Retrieval Similarity)** | Indicates the proportion of queries where at least one relevant chunk appears within the top-k results. | 0 - 1 scale |
+| **Mean HitRate@K** | Represents the average similarity score of the top-k retrieved chunks across all queries. | 0 - 1 scale |
 
+Summary metrics are calculated as follows:
+| Summary Metric | Equation |
+|--------|----------------|
+| **Average** | 0.2 x Average NDCG + 0.2 x MRR + 0.2 x Overall MRS + 0.2 x Mean HitRate@K |
+| **Ranking Prioritize** | 0.4 x Average NDCG + 0.4 x MRR + 0.1 x Overall MRS + 0.1 x Mean HitRate@K |
 
-
+Best combination with a dataset of 10 questions
+| Summary Metric | Chunk Size | Chunk Overlap | Top k | Scores |
+|--------|----------------|-----|-----|----|
+| **Average** | 125 | 120 | 5 | 0.7874 |
+| **Ranking Prioritize** | 125 | 120 | 5 | 0.7647 |
  
 #### **Generation Evaluation (RAGAS)**
 
-| Metric | Score | What It Measures |
+| Metric | Description | Scale |
 |--------|-------|------------------|
-| **Faithfulness** | **0.857** | Answer accuracy based on retrieved context |
-| **Answer Relevancy** | **0.823** | How well the answer addresses the question |
-| **Context Precision** | **0.689** | Relevance of retrieved chunks |
-| **Context Recall** | **0.742** | Coverage of ground truth in retrieved context |
----
-
-## 🎯 **What Makes This Project Stand Out**
-
-### 1️⃣ **Production-Ready Architecture**
-- Clean, modular codebase following software engineering best practices
-- Proper error handling and logging
-- Configuration management with environment variables
-- Installable Python package structure
-
-### 2️⃣ **Comprehensive Evaluation Pipeline**
-- **Retrieval evaluation**: Coverage-based metrics (DCG/nDCG/MRR/Mean MRS/Mean HitRate@K)
-- **Generation evaluation**: RAGAS metrics (5 metrics)
-
-### 3️⃣ **Novel Approach to Relevance Scoring**
-- Handles relevance spans that cross chunk boundaries
-- Granular coverage scores (not just binary relevant/irrelevant)
-- Enables meaningful ranking evaluation with nDCG
-
-### 4️⃣ **End-to-End Deployment**
-- Live Streamlit app with mobile-responsive design
-- CLI demo for local testing
-- Docker-ready (optional)
+| **Faithfulness** | Assesses whether the answer is consistent with the retrieved context, without hallucination. |  |
+| **Answer Relevancy** | Captures how relevant the generated answer is to the user’s question. |  |
+| **Answer Correctness** | Measures whether the model’s answer is factually correct based on the reference. |  |
+| **Context Precision** | Fraction of retrieved chunks that are actually relevant to the question. |  |
+| **Context Recall** | Fraction of all relevant chunks that were successfully retrieved. |  |
 
 ---
 
@@ -87,7 +71,7 @@
 <td width="50%">
 
 **💾 Vector Database**
-- ChromaDB (vector store)
+- ChromaDB (Vector Store)
 - Cosine similarity search
 
 </td>
@@ -96,8 +80,8 @@
 <td>
 
 **📊 Evaluation**
-- RAGAS (generation metrics)
-- DCG/nDCG/MRR/Mean MRS/Mean HitRate@K (retrieval)
+- RAGAS (Generation Metrics)
+- DCG/nDCG/MRR/Mean MRS/Mean HitRate@K (Retrieval Metrics)
 
 </td>
 <td>
@@ -117,27 +101,29 @@
 
 ```
 rag-board-game-qa/
+├─── demo.py                       # Demo
 ├── 📱 app/
 │   ├── streamlit_app.py           # Web interface
-│   └── demo.py                    # CLI demo
 ├── 💻 src/
+│   ├── __init__.py                # Version control
 │   ├── rag_system.py              # Core RAG pipeline
 │   ├── document_loader.py         # PDF processing
 │   ├── chunking.py                # Text chunking strategies
 │   ├── vector_store.py            # ChromaDB operations
 │   ├── annotation.py              # Ground truth annotation
+│   ├── exception.py               # Exception management
+│   ├── prompts.py                 # Prompts templates management
 │   └── config.py                  # Configuration management
 ├── 🔬 evaluation/
+│   ├── __init__.py                # Version control
 │   ├── evaluation.py              # Evaluation pipeline
 │   ├── metrics.py                 # DCG/nDCG implementation
 │   ├── run_evaluation.py          # Evaluation runner
-│   └── results/                   # CSV outputs
+│   └── results_csv/               # CSV outputs
 ├── 📊 data/
 │   └── BoardGamesRuleBook/        # Game manuals & test data
-├── 📓 notebooks/
-│   └── experiments.ipynb          # Analysis & visualization
-└── 🎨 assets/
-    └── screenshots/               # Demo images
+└── 📓 notebooks/
+    └── rag_experiments.ipynb      # Analysis & visualization
 ```
 
 ---
@@ -197,33 +183,6 @@ graph LR
 4. **Retrieval**: User query embedded → cosine similarity search → top-5 chunks
 5. **Generation**: GPT-4o-mini synthesizes answer from retrieved context
 6. **Evaluation**: RAGAS metrics validate quality
-
----
-
-## 📈 **Evaluation Methodology**
-
-### **Retrieval Evaluation**
-- **Coverage-based scoring**: Calculates overlap between retrieved chunks and ground truth spans
-- **Aho-Corasick algorithm**: O(n + m + z) time complexity for efficient pattern matching
-- **Handles boundary cases**: Spans crossing chunk boundaries properly scored
-- **nDCG metric**: Position-aware ranking quality (0-1 scale)
-
-### **Generation Evaluation**
-Uses RAGAS framework with 5 metrics:
-1. **Faithfulness**: Factual consistency with retrieved context
-2. **Answer Relevancy**: How well answer addresses the question
-3. **Answer Correctness**: Semantic similarity to ground truth
-4. **Context Precision**: Relevance of retrieved chunks
-5. **Context Recall**: Coverage of ground truth information
-
----
-
-## 🎯 **Use Cases**
-
-- ✅ **Board game cafes**: Instant rule lookups for customers
-- ✅ **Game publishers**: Automated customer support
-- ✅ **Personal use**: Learn new games faster
-- ✅ **Educational**: Teaching RAG system design
 
 ---
 
