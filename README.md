@@ -6,7 +6,7 @@
 
 **Description:** AI chatbot that answers questions about the rules of the board game "CATAN"  <br>
 **Tech:** OpenAI GPT-3.5 Turbo + LangChain + ChromaDB + Streamlit  <br>
-**Key Results:** XX.X% faithfulness score | XX.X% retrieval accuracy (nDCG)  TBD<br>
+**Results:** XX.X% faithfulness | XX.X% answer relevancy | XX.X% answer correctness <br>
 **Online Demo:** [https://broadgame-question-and-answer.streamlit.app/](https://broadgame-question-and-answer.streamlit.app/)  <br>
 **Content:** Full RAG pipeline with retrieval and generation evaluation<br>
 
