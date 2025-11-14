@@ -33,16 +33,16 @@ Explore the **"Popular Questions"** section and click any question to auto-fill 
 ### Key Results (At a Glance)
 
 #### **Best Retrieval Settings**
-- **[Chunk Size](#Chunk_Size):** 125  
+- **Chunk Size:** 125  
 - **Chunk Overlap:** 120  
 - **Top-K:** 5  
-- **Similarity:** Cosine  
-These achieved the highest average retrieval score across nDCG, MRR, MRS, and HitRate@K.
+- **Similarity search:** Cosine  
+These achieved the highest average retrieval score across [nDCG](#Retrieval Metrics), [MRR](#Retrieval Metrics), [Overall MRS](#Retrieval Metrics), and [Mean HitRate@K](#Retrieval Metrics).
 
 | Summary Metric | Chunk | Overlap | Top-K | Score |
 |----------------|--------|----------|--------|--------|
-| Average | 125 | 120 | 5 | **0.7874** |
-| Prioritize Ranking | 125 | 120 | 5 | **0.7647** |
+| [Average](#Retrieval Metrics) | 125 | 120 | 5 | **0.7874** |
+| [Prioritize Ranking](#Retrieval Metrics) | 125 | 120 | 5 | **0.7647** |
 
 #### **Generation Evaluation (RAGAS, 40 Qs)**
 | Metric | Score |
@@ -53,7 +53,26 @@ These achieved the highest average retrieval score across nDCG, MRR, MRS, and Hi
 | Context Precision | XX.X% |
 | Context Recall | XX.X% |
 
-##### Chunk_Size
+
+
+### Metric Detail
+#### Retrieval Metrics
+
+| Metric | Description | Scale |
+|:--------|:----------------|:-----|
+| **Average NDCG(Normalized Discounted Cumulative Gain)** | Measures how well the retrieved chunks are ranked compared to an ideal. | 0 - 1 |
+| **MRR(Mean Reciprocal Rank)** | Captures how early the first relevant chunk appears in the ranking, with higher values meaning earlier retrieval. | 0 - 1 |
+| **Overall MRS(Mean Retrieval Similarity)** | Indicates the proportion of queries where at least one relevant chunk appears within the top-k results. | 0 - 1 |
+| **Mean HitRate@K** | Represents the average similarity score of the top-k retrieved chunks across all queries. | 0 - 1 |
+
+Summary metrics are calculated as follows:
+| Summary Metric | Equation |
+|:--------|:----------------|
+| **Average** | 0.2 x Average NDCG + 0.2 x MRR + 0.2 x Overall MRS + 0.2 x Mean HitRate@K |
+| **Ranking Prioritize** | 0.4 x Average NDCG + 0.4 x MRR + 0.1 x Overall MRS + 0.1 x Mean HitRate@K |
+
+[Back](#Key)
+#### Generation Metrics
 ---
 
 ### **Performance Results**
