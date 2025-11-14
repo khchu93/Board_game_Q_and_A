@@ -58,12 +58,12 @@ These achieved the highest average retrieval score across [nDCG](#Retrieval-Metr
 ### Metric Detail
 #### Retrieval Metrics
 
-| Metric | Description | Scale |
-|:--------|:----------------|:-----|
-| **Average NDCG(Normalized Discounted Cumulative Gain)** | Measures how well the retrieved chunks are ranked compared to an ideal. | 0 - 1 |
-| **MRR(Mean Reciprocal Rank)** | Captures how early the first relevant chunk appears in the ranking, with higher values meaning earlier retrieval. | 0 - 1 |
-| **Overall MRS(Mean Retrieval Similarity)** | Indicates the proportion of queries where at least one relevant chunk appears within the top-k results. | 0 - 1 |
-| **Mean HitRate@K** | Represents the average similarity score of the top-k retrieved chunks across all queries. | 0 - 1 |
+| Metric | Description | Scale | Interpretation |
+|:--------|:----------------|:-----|:---|
+| **Average NDCG(Normalized Discounted Cumulative Gain)** | Measures how close the retrieved ranking is to an ideal ordering. | 0 - 1 | Shows how close the chunk ranking is to the ideal |
+| **MRR(Mean Reciprocal Rank)** | Measures how early the first relevant chunk appears. | 0 - 1 | Shows how early a relevant chunk is retrieved |
+| **Overall MRS(Mean Retrieval Similarity)** | Measures the average semantic similarity between queries and top-k retrieved chunks | 0 - 1 | Shows how semantically close retrieved chunks are to the query. |
+| **Mean HitRate@K** | Measures how often top-k contains at least one relevant chunk. | 0 - 1 | Shows whether top-k consistently includes a relevant chunk |
 
 Summary metrics are calculated as follows:
 | Summary Metric | Equation |
@@ -74,13 +74,13 @@ Summary metrics are calculated as follows:
 [Back](#Key-Results)
 #### Generation Metrics
 
-| RAGAS Metric | Description | Scale | Score |
-|:--------|:-------|:------------------|:----|
-| **Faithfulness** | Assesses whether the answer is consistent with the retrieved context, without hallucination. | 0 - 1 |  |
-| **Answer Relevancy** | Captures how relevant the generated answer is to the user’s question. | 0 - 1 |  |
-| **Answer Correctness** | Measures whether the model’s answer is factually correct based on the reference. | 0 - 1  |  |
-| **Context Precision** | Fraction of retrieved chunks that are actually relevant to the question. | 0 - 1  |  |
-| **Context Recall** | Fraction of all relevant chunks that were successfully retrieved. | 0 - 1  |  |
+| RAGAS Metric | Description | Scale | Interpretation |
+|:--------|:-------------------------------|:------|:-------------------------------|
+| **Faithfulness** | Measures whether the generated answer is consistent with the retrieved context. | 0–1 | Shows how closely the answer follows the source context without hallucination |
+| **Answer Relevancy** | Measures how relevant the generated answer is to the user’s question. | 0–1 | Shows how well the answer addresses the question |
+| **Answer Correctness** | Measures whether the generated answer is factually correct based on the reference. | 0–1 | Shows whether the answer contains correct information |
+| **Context Precision** | Measures the fraction of retrieved chunks that are actually relevant. | 0–1 | Shows how many retrieved chunks are truly relevant to the query |
+| **Context Recall** | Measures the fraction of all relevant chunks that were successfully retrieved. | 0–1 | Shows how completely relevant chunks are captured by the retriever |
 
 [Back](#Key-Results)
 
