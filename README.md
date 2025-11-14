@@ -169,16 +169,18 @@ python app/demo.py
 
 ```mermaid
 graph LR
-    A[User Question] --> B[Embedding Model]
+    A[Q&A Dataset] --> B[Embedding Model]
     B --> C[Vector Search]
     C --> D[Top-K Retrieval]
-    D --> E[LLM Generation]
-    E --> F[Answer + Sources]
+    E[Prompt Template] --> F[LLM Generation]
+    L[Question] --> F[LLM Generation]
+    D --> F[LLM Generation]
+    F --> G[Answer + Sources]
     
-    G[PDF Manual] --> H[Chunking]
-    H --> I[Embeddings]
-    I --> J[ChromaDB]
-    J --> C
+    H[PDF Manual] --> I[Chunking]
+    I --> J[Embeddings]
+    J --> K[ChromaDB]
+    K --> C
 ```
 
 #### **Pipeline Overview**
