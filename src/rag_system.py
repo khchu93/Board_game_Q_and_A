@@ -74,7 +74,7 @@ class RAGSystem:
             logger.info(f"Loading PDF: {self.pdf_path}")
             docs = load_documents(self.pdf_path)
             
-            # Chunk documents
+            # Chunk documents and save in json
             chunks = split_text(docs, self.chunk_size, self.chunk_overlap)
             chunks_path = Path(self.pdf_path).with_name("CATAN_chunks.json")
             save_chunks(chunks=chunks, path=chunks_path)
