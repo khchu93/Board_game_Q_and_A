@@ -6,3 +6,5 @@ chroma
 .env
 .env.local
 .env.*.local
+.devcontainer
+.vscode
