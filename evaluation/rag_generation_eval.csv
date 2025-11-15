@@ -1,2 +1,0 @@
-chunk_size,chunk_overlap,top_k,answer_correctness_mean,answer_correctness_std,answer_relevancy_mean,answer_relevancy_std,faithfulness_mean,faithfulness_std,context_precision_mean,context_precision_std,context_recall_mean,context_recall_std
-125,120,5,0.589096351554988,0.2304325346840891,0.9730915283988377,0.03705268011953087,0.675,0.38360497621613016,0.8079166666372501,0.2949138357534256,0.875,0.33071891388307384
