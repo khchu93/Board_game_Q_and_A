@@ -270,19 +270,21 @@ def evaluate_generation(
             ],
             llm=llm,
         )
+
+        df_score = scores.to_pandas()
         
         # Calculate statistics
         results = {
-            "answer_correctness_mean": float(np.mean(scores["answer_correctness"])),
-            "answer_correctness_std": float(np.std(scores["answer_correctness"])),
-            "answer_relevancy_mean": float(np.mean(scores["answer_relevancy"])),
-            "answer_relevancy_std": float(np.std(scores["answer_relevancy"])),
-            "faithfulness_mean": float(np.mean(scores["faithfulness"])),
-            "faithfulness_std": float(np.std(scores["faithfulness"])),
-            "context_precision_mean": float(np.mean(scores["context_precision"])),
-            "context_precision_std": float(np.std(scores["context_precision"])),
-            "context_recall_mean": float(np.mean(scores["context_recall"])),
-            "context_recall_std": float(np.std(scores["context_recall"])),
+            "answer_correctness_mean": float(np.nanmean(df_score["answer_correctness"])),
+            "answer_correctness_std": float(np.nanstd(df_score["answer_correctness"])),
+            "answer_relevancy_mean": float(np.nanmean(df_score["answer_relevancy"])),
+            "answer_relevancy_std": float(np.nanstd(df_score["answer_relevancy"])),
+            "faithfulness_mean": float(np.nanmean(df_score["faithfulness"])),
+            "faithfulness_std": float(np.nanstd(df_score["faithfulness"])),
+            "context_precision_mean": float(np.nanmean(df_score["context_precision"])),
+            "context_precision_std": float(np.nanstd(df_score["context_precision"])),
+            "context_recall_mean": float(np.nanmean(df_score["context_recall"])),
+            "context_recall_std": float(np.nanstd(df_score["context_recall"])),
         }
         
         logger.info("=" * 60)

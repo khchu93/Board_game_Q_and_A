@@ -1,0 +1,2 @@
+chunk_size,chunk_overlap,top_k,avg_dcg,avg_ndcg,mrr,mmrs,mhitrate_k,num_queries
+125,120,5,1.149210000495573,0.6717104495479799,0.6120833333333333,0.8650364536046983,0.75,40

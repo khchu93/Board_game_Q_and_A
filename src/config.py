@@ -23,7 +23,8 @@ logging.basicConfig(
 # Paths
 DATA_DIR = Path("data/BoardGamesRuleBook")
 PDF_PATH = DATA_DIR / "CATAN.pdf"
-TRAINING_QA_PATH = DATA_DIR / "CATAN_train_small.json"
+# TRAINING_QA_PATH = DATA_DIR / "CATAN_eval_test.json" # retrieval eval set
+TRAINING_QA_PATH = DATA_DIR / "CATAN_eval_long.json"   # generation eval set
 
 # Model settings
 EMBEDDING_MODEL = "text-embedding-ada-002"
@@ -32,14 +33,14 @@ LLM_TEMPERATURE = 0
 SIMILARITY_SEARCH = "cosine"
 
 # Chunking parameters (demo.py and streamlit_app.py)
-DEMO_CHUNK_SIZE = 300
-DEMO_CHUNK_OVERLAP = 40
-DEMO_TOP_K = 3
+DEMO_CHUNK_SIZE = 125
+DEMO_CHUNK_OVERLAP = 120
+DEMO_TOP_K = 5
 
 # Evaluation parameters (run_evaluation.py)
-CHUNK_SIZES = [100, 125, 150, 200, 250, 300]
-CHUNK_OVERLAPS = [0, 20, 40, 80, 120]
-TOP_K_VALUES = [3, 5, 7, 10]
+CHUNK_SIZES = [125]
+CHUNK_OVERLAPS = [120]
+TOP_K_VALUES = [5]
 
 # Prompt template
 PROMPT_TEMPLATE = "default"

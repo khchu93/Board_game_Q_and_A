@@ -1,0 +1,2 @@
+chunk_size,chunk_overlap,embedding_model,top_k,answer_correctness,answer_relevancy,faithfulness,context_precision,context_recall
+[300],[30],['text-embedding-3-small'],[3],0.5203585831983167,0.9747143774926113,0.5333333333333333,0.7333333332941667,0.8
