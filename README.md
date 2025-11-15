@@ -277,6 +277,8 @@ rag-board-game-qa/
 │   ├── metrics.py                         # DCG/nDCG implementation
 │   ├── run_evaluation.py                  # Evaluation runner
 │   └── results_csv/                       # CSV outputs
+│        ├── rag_retrieval_eval.csv        # Retrieval evaluation result
+│        └── rag_generation_eval.csv       # Generation evaluation result
 └── data/
     └── BoardGamesRuleBook/                # Game manuals & test data
             └── CATAN_chunks.json          # CATAN in chunks
