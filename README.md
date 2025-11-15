@@ -48,13 +48,13 @@ These achieved the highest average retrieval score across [nDCG](#Retrieval-Metr
 #### **Generation Evaluation (RAGAS)**
 *RAGAS scores computed using a 40-question custom Q&A dataset grounded in the official CATAN rulebook, designed to evaluate answer faithfulness, relevancy, correctness, and context quality.*
 
-| RAGAS Metric | Score |
-|--------|--------|
-| [Faithfulness](#Summary-Metrics) | **75.83%** |
-| [Answer Relevancy](#Summary-Metrics) | **97.73%** |
-| [Answer Correctness](#Summary-Metrics) | **63.54%** |
-| [Context Precision](#Summary-Metrics) | **95.00%** |
-| [Context Recall](#Summary-Metrics) | **95.00%** |
+| RAGAS Metric | Mean | Std |
+|--------|--------|--|
+| [Faithfulness](#Summary-Metrics) | 0.6958 | 0.4046 |
+| [Answer Relevancy](#Summary-Metrics) | 0.9694 | 0.0389 |
+| [Answer Correctness](#Summary-Metrics) | 0.6163 | 0.2121 |
+| [Context Precision](#Summary-Metrics) | 0.7921 | 0.2983 |
+| [Context Recall](#Summary-Metrics) | 0.8750 | 0.3307 |
 
 ---
 
