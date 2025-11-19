@@ -1,4 +1,4 @@
-## 🎲 Board Game Rulebook Q&A Chatbot (RAG) - CATAN Game Master
+## 🎲 Board Game Rulebook Q&A Chatbot (RAG) - CATAN
 
 > **Ask any question about CATAN. Get instant, rule-accurate answers grounded in the official manual.**
 
