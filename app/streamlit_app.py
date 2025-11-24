@@ -211,7 +211,7 @@ def main():
     
     # Header
     # st.markdown("## 🎲 Board Game Q&A Assistant (CATAN)")
-    col1, col2 = st.columns([0.5, 9.5])
+    col1, col2 = st.columns([0.4, 9.6])
     with col1:
         st.image("https://raw.githubusercontent.com/khchu93/Board_game_Q_and_A/main/streamlit_image/catan_image.png", width=64)
     with col2:
@@ -219,7 +219,7 @@ def main():
     st.markdown(
         """
         *Catan is a strategy game where you explore a new island, collect resources from each dice roll, and build roads, settlements, and cities while trading with other players. The board changes every game, and each turn opens new choices, so it stays lively and unpredictable.  
-        But the rules and edge cases can confuse newcomers, so I built this RAG game master chatbot that answers questions instantly and keeps the game flowing without anyone digging through the rulebook.*
+        However, the rules and edge cases can confuse newcomers, so I built this RAG game master chatbot that answers questions instantly and keeps the game flowing without anyone digging through the rulebook.*
         """
     )
     st.markdown("\n*Ask me anything about CATAN rules!*")
