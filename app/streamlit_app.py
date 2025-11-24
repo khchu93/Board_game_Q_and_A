@@ -212,11 +212,11 @@ def main():
     # Header
     # st.markdown("## 🎲 Board Game Q&A Assistant (CATAN)")
     st.markdown(
-    """
-    <img src="https://raw.githubusercontent.com/khchu93/NoteImage/main/catan_image.png" width="32">
-    <h2>Board Game Q&A Assistant (CATAN)</h2>
-    """,
-    unsafe_allow_html=True
+        """
+        <img src="https://raw.githubusercontent.com/khchu93/NoteImage/main/catan_image.png" width="32">
+        <h2>Board Game Q&A Assistant (CATAN)</h2>
+        """,
+        unsafe_allow_html=True
     )
     st.markdown(
         """
