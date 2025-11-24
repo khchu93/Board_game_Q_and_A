@@ -211,7 +211,10 @@ def main():
     
     # Header
     st.markdown("## 🎲 Board Game Q&A Assistant (CATAN)")
-    st.markdown("*Ask me anything about CATAN rules!*")
+    st.markdown("*Catan is an easy-to-learn strategy game where you build, trade, and race your friends to grow the best colony. " \
+    "Every roll gives you new resources, every trade shifts the balance, and every match feels different. It’s fast, interactive, "
+    "and surprisingly addictive — the kind of game that turns first-timers into regulars.*")
+    st.markdown("\n*Ask me anything about CATAN rules!*")
     
     # Link button
     st.link_button(
