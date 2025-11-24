@@ -211,13 +211,11 @@ def main():
     
     # Header
     # st.markdown("## 🎲 Board Game Q&A Assistant (CATAN)")
-    st.markdown(
-        """
-        <img src="https://raw.githubusercontent.com/khchu93/Board_game_Q_and_A/main/streamlit_image/catan_image.png" width="32">
-        <h2>Board Game Q&A Assistant (CATAN)</h2>
-        """,
-        unsafe_allow_html=True
-    )
+    col1, col2 = st.columns([0.5, 9.5])
+    with col1:
+        st.image("https://raw.githubusercontent.com/khchu93/Board_game_Q_and_A/main/streamlit_image/catan_image.png", width=64)
+    with col2:
+        st.markdown("## Board Game Q&A Assistant (CATAN)")
     st.markdown(
         """
         *Catan is a strategy game where you explore a new island, collect resources from each dice roll, and build roads, settlements, and cities while trading with other players. The board changes every game, and each turn opens new choices, so it stays lively and unpredictable.  
